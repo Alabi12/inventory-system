@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>InventoryApp</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>InventoryApp</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+</head>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-  </head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><%= link_to 'Dashboard', root_path %></li>
+        <li><%= link_to 'Products', products_path %></li>
+        <li><%= link_to 'Suppliers', suppliers_path %></li>
+        <li><%= link_to 'Customers', customers_path %></li>
+        <li><%= link_to 'Orders', orders_path %></li>
+        <li><%= link_to 'Stock Adjustments', stock_adjustments_path %></li>
+      </ul>
+    </nav>
+  </header>
 
-  <body>
-    <%= yield %>
-  </body>
+  <%= yield %>
+
+</body>
 </html>
