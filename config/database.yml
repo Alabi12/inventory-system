@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
+  password: wolo
+
+development:
+  <<: *default
+  database: inventory_app_development
+
+test:
+  <<: *default
+  database: inventory_app_test
+
+production:
+  <<: *default
+  database: inventory_app_production
+  username: inventory_app
+  password: <%= ENV['INVENTORY_APP_DATABASE_PASSWORD'] %>
