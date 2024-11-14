@@ -1,22 +1,13 @@
-<div id="<%= dom_id order %>">
-  <p>
-    <strong>Product:</strong>
-    <%= order.product_id %>
-  </p>
-
-  <p>
-    <strong>Customer:</strong>
-    <%= order.customer_id %>
-  </p>
-
-  <p>
-    <strong>Quantity:</strong>
-    <%= order.quantity %>
-  </p>
-
-  <p>
-    <strong>Status:</strong>
-    <%= order.status %>
-  </p>
-
-</div>
+<tr id="<%= dom_id(order) %>">
+  <td><%= order.product.name %></td>
+  <td><%= order.customer.name %></td>
+  <td><%= order.quantity %></td>
+  <td><%= order.status.humanize %></td>
+  <td><%= order.created_at.strftime("%Y-%m-%d") %></td>
+  <td><%= order.destination.capitalize %></td>
+  <td>
+    <%= link_to 'Show', order %>
+    <%= link_to 'Edit', edit_order_path(order) %>
+    <%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %>
+  </td>
+</tr>

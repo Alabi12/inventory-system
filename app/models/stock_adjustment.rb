@@ -1,17 +1,21 @@
+# app/models/stock_adjustment.rb
 class StockAdjustment < ApplicationRecord
   belongs_to :product
-  validates :quantity, presence: true
-  enum adjustment_type: { addition: 0, removal: 1, transfer: 2 }
 
-  after_save :update_product_stock
+  enum adjustment_type: { add: 'add', remove: 'remove', transfer: 'transfer' }
+
+  after_create :apply_adjustment
 
   private
 
-  def update_product_stock
-    if addition?
-      product.increment!(:stock, quantity)
-    elsif removal?
-      product.decrement!(:stock, quantity)
+  def apply_adjustment
+    stock = product.stocks.find_or_initialize_by(location: location)
+    case adjustment_type
+    when 'add'
+      stock.quantity += quantity
+    when 'remove'
+      stock.quantity -= quantity
     end
+    stock.save
   end
 end

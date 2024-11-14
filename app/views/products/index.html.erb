@@ -1,14 +1,75 @@
-<p style="color: green"><%= notice %></p>
+<p class="notice"><%= notice %></p>
 
 <h1>Products</h1>
 
-<div id="products">
-  <% @products.each do |product| %>
-    <%= render product %>
-    <p>
-      <%= link_to "Show this product", product %>
-    </p>
-  <% end %>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>SKU</th>
+      <th>Price</th>
+      <th>Qty of Inventory</th>
+      <th>Total Purchased Amount</th>
+      <th>Supplier</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @products.any? %>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.sku %></td>
+          <td><%= number_to_currency(product.price) %></td>
+          <td><%= product.stock %></td>
+          <td><%= number_to_currency(product.total_purchased_amount || 0) %></td>
+          <td><%= product.supplier&.name || "No Supplier" %></td>
+          <td>
+            <%= link_to 'Show', product_path(product) %> |
+            <%= link_to 'Edit', edit_product_path(product) %> |
+            <%= link_to 'Destroy', product_path(product), method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="7">No products available.</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-<%= link_to "New product", new_product_path %>
+<%= link_to 'New Product', new_product_path, class: "button" %>
+
+<h3>Cumulative Total Amount for Products</h3>
+<% if @product_totals.present? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Cumulative Total Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @product_totals.each do |entry| %>
+        <tr>
+          <td><%= entry[:product_name] %></td>
+          <td><%= number_to_currency(entry[:total_amount]) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No product totals available.</p>
+<% end %>
+
+<h2>Low Stock Alerts</h2>
+<% if @low_stock_products&.any? %>
+  <ul>
+    <% @low_stock_products.each do |product| %>
+      <li><%= product.name %> - Only <%= product.stock %> left in stock!</li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No products are low in stock.</p>
+<% end %>

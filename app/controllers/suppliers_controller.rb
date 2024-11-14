@@ -6,8 +6,12 @@ class SuppliersController < ApplicationController
     @suppliers = Supplier.all
   end
 
-  # GET /suppliers/1 or /suppliers/1.json
   def show
+    @supplier = Supplier.find(params[:id])
+    # Fetch total purchased amount for all orders of this supplier's products
+    @total_purchased_amount = @supplier.orders.joins(:product).sum('orders.quantity * products.price')
+    # Fetch all orders for this supplier's products
+    @orders = @supplier.orders.includes(:product)
   end
 
   # GET /suppliers/new
@@ -49,11 +53,15 @@ class SuppliersController < ApplicationController
 
   # DELETE /suppliers/1 or /suppliers/1.json
   def destroy
-    @supplier.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to suppliers_path, status: :see_other, notice: "Supplier was successfully destroyed." }
-      format.json { head :no_content }
+    @supplier = Supplier.find(params[:id])
+  
+    if @supplier.products.any?
+      flash[:alert] = "Cannot delete supplier with associated products."
+      redirect_to suppliers_path
+    else
+      @supplier.destroy
+      flash[:notice] = "Supplier successfully deleted."
+      redirect_to suppliers_path
     end
   end
 

@@ -1,12 +1,31 @@
-<div id="<%= dom_id supplier %>">
-  <p>
-    <strong>Name:</strong>
-    <%= supplier.name %>
-  </p>
+<% if @supplier %>
+  <h1><%= @supplier.name %> - Supplier Details</h1>
+  <p><strong>Contact Information:</strong> <%= @supplier.contact_info %></p>
 
-  <p>
-    <strong>Contact info:</strong>
-    <%= supplier.contact_info %>
-  </p>
+  <h3>Total Purchase Amount</h3>
+  <p><%= number_to_currency(@total_purchased_amount) %></p>
 
-</div>
+  <h3>Purchased Products and Orders</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Quantity Purchased</th>
+        <th>Total Amount</th>
+        <th>Order Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <% product = order.product %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= order.quantity %></td>
+          <td><%= number_to_currency(order.quantity * product.price) %></td>
+          <td><%= order.created_at.strftime("%Y-%m-%d") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+<% end %>

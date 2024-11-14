@@ -1,14 +1,21 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Orders</h1>
 
-<div id="orders">
-  <% @orders.each do |order| %>
-    <%= render order %>
-    <p>
-      <%= link_to "Show this order", order %>
-    </p>
-  <% end %>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Customer</th>
+      <th>Quantity</th>
+      <th>Status</th>
+      <th>Order Date</th>
+      <th>Destination</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <%= render @orders %> <!-- This renders each order using the _order.html.erb partial -->
+  </tbody>
+</table>
 
-<%= link_to "New order", new_order_path %>
+<%= link_to 'New Order', new_order_path %>

@@ -21,6 +21,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :destination %>
+    <%= form.select :destination, [["Warehouse", "warehouse"], ["Store", "store"]], prompt: "Select Destination" %>
+  </div>
+
+  <div class="field">
     <%= form.label :status %>
     <%= form.select :status, Order.statuses.keys.map { |status| [status.humanize, status] }, prompt: "Select Status" %>
   </div>
@@ -28,6 +33,10 @@
   <div class="field">
     <%= form.label :quantity %>
     <%= form.number_field :quantity %>
+  </div>
+  <div class="field">
+    <%= form.label :price %>
+    <%= form.number_field :price %>
   </div>
 
   <div class="actions">

@@ -1,27 +1,24 @@
 <div id="<%= dom_id product %>">
-  <p>
-    <strong>Name:</strong>
-    <%= product.name %>
-  </p>
-
-  <p>
-    <strong>Sku:</strong>
-    <%= product.sku %>
-  </p>
-
-  <p>
-    <strong>Price:</strong>
-    <%= product.price %>
-  </p>
-
-  <p>
-    <strong>Stock:</strong>
-    <%= product.stock %>
-  </p>
-
-  <p>
-    <strong>Supplier:</strong>
-    <%= product.supplier_id %>
-  </p>
-
+  <table>
+    <tr>
+      <th>Name:</th>
+      <td><%= product.name %></td>
+    </tr>
+    <tr>
+      <th>Sku:</th>
+      <td><%= product.sku %></td>
+    </tr>
+    <tr>
+      <th>Price:</th>
+      <td><%= number_to_currency(product.price) %></td>
+    </tr>
+    <tr>
+      <th>Stock:</th>
+      <td><%= product.stock %></td>
+    </tr>
+    <tr>
+      <th>Supplier:</th>
+      <td><%= product.supplier_id %></td>
+    </tr>
+  </table>
 </div>

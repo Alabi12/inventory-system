@@ -3,11 +3,12 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.all
+    @orders = Order.all.includes(:product, :customer)
   end
 
   # GET /orders/1 or /orders/1.json
   def show
+    @order = Order.find(params[:id])
   end
 
   # GET /orders/new
@@ -19,21 +20,25 @@ class OrdersController < ApplicationController
   def edit
   end
 
-  
   def create
     @order = Order.new(order_params)
-    
-    respond_to do |format|
-      if @order.save
-        format.html { redirect_to @order, notice: 'Order was successfully created.' }
-        format.json { render :show, status: :created, location: @order }
-      else
-        format.html { render :new }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
+
+    # Ensure the product is associated before setting the price
+    if @order.product
+      @order.price = @order.product.price # Set the price from the product's price
+    else
+      # Handle the case where the product is not found (e.g., invalid product_id)
+      flash[:error] = "Product not found."
+      render :new
+      return
+    end
+
+    if @order.save
+      redirect_to @order, notice: 'Order was successfully created.'
+    else
+      render :new
     end
   end
-
 
   # PATCH/PUT /orders/1 or /orders/1.json
   def update
@@ -67,10 +72,6 @@ class OrdersController < ApplicationController
     # Only allow a list of trusted parameters through.
 
     def order_params
-      params.require(:order).permit(:product_id, :customer_id, :status, :quantity)
+      params.require(:order).permit(:product_id, :customer_id, :status, :quantity, :price)
     end
-
-      def order_params
-    params.require(:order).permit(:product_id, :customer_id, :status, :quantity)
-  end
 end

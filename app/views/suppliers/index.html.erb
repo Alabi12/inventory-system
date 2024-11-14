@@ -4,7 +4,7 @@
 
 <div id="suppliers">
   <% @suppliers.each do |supplier| %>
-    <%= render supplier %>
+     <%= render partial: 'supplier', locals: { supplier: supplier } %>
     <p>
       <%= link_to "Show this supplier", supplier %>
     </p>

@@ -1,6 +1,35 @@
 <h1>New stock adjustment</h1>
 
-<%= render "form", stock_adjustment: @stock_adjustment %>
+<%= form_with model: @stock_adjustment, local: true do |form| %>
+  <div>
+    <%= form.label :product_id, "Product" %>
+    <%= form.collection_select :product_id, Product.all, :id, :name %>
+  </div>
+  
+  <div>
+    <%= form.label :adjustment_type %>
+    <%= form.select :adjustment_type, StockAdjustment.adjustment_types.keys %>
+  </div>
+  
+  <div>
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity %>
+  </div>
+  
+  <div>
+    <%= form.label :location %>
+    <%= form.text_field :location %>
+  </div>
+
+  <div>
+    <%= form.label :reason %>
+    <%= form.text_area :reason %>
+  </div>
+
+  <div>
+    <%= form.submit "Adjust Stock" %>
+  </div>
+<% end %>
 
 <br>
 
