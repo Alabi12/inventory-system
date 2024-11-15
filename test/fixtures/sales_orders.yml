@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer: one
+  status: 1
+  order_date: 2024-11-15
+  delivery_date: 2024-11-15
+
+two:
+  customer: two
+  status: 1
+  order_date: 2024-11-15
+  delivery_date: 2024-11-15
