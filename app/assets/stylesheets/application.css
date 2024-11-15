@@ -13,3 +13,154 @@
  *= require_tree .
  *= require_self
  */
+
+ /*Side Bar menu */
+ /* Reset styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body and layout */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #333;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 50px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 15px;
+  background-color: #444;
+  text-align: center;
+  font-size: 24px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-menu li {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.sidebar-menu li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  font-size: 18px;
+}
+
+.sidebar-menu li:hover {
+  background-color: #555;
+}
+
+.sidebar-menu li a:hover {
+  color: #ff6347; /* Change color on hover */
+}
+
+/* Main Content Area */
+.content {
+  margin-left: 250px; /* Sidebar width */
+  width: 100%;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  text-align: right;
+}
+
+header nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+header nav ul li {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+header nav ul li a:hover {
+  color: #ff6347;
+}
+
+/* Main Content */
+main {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+/* Footer */
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+  .content {
+    margin-left: 200px;
+  }
+  header nav ul li {
+    display: inline-block;
+    margin-left: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding-top: 20px;
+  }
+
+  .sidebar-menu li {
+    text-align: center;
+  }
+
+  .content {
+    margin-left: 0;
+  }
+
+  header {
+    text-align: center;
+  }
+}

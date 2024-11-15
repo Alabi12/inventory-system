@@ -1,16 +1,42 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>InventoryApp</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
+  <title>Inventory Management</title>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <ul class="sidebar-menu">
+      <li><%= link_to 'Dashboard', dashboard_path %></li>
+      <li><%= link_to 'Products', products_path %></li>
+      <li><%= link_to 'Purchase Orders', purchase_orders_path %></li>
+      <li><%= link_to 'Purchase Order items', purchase_order_items_path %></li>
+      <li><%= link_to 'Sales Orders', sales_orders_path %></li>
+      <li><%= link_to 'Sales Order items', sales_order_items_path %></li>
+      <li><%= link_to 'Suppliers', suppliers_path %></li>
+      <li><%= link_to 'Customers', customers_path %></li>
+      <li><%= link_to 'Inventory', inventory_items_path %></li>
+    </ul>
+  </div>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-  </head>
+  <!-- Main Content Area -->
+  <div class="content">
+    <!-- Header -->
 
-  <body>
-    <%= yield %>
-  </body>
+    <!-- Main Content Section -->
+    <main>
+      <%= yield %>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <%= Time.now.year %> Your Company Name</p>
+  </footer>
+</body>
 </html>
