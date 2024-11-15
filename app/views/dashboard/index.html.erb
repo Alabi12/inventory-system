@@ -1,2 +1,30 @@
-<h1>Welcome to the Dashboard</h1>
+<h1>Dashboard</h1>
 
+<h2>Summary</h2>
+<ul>
+  <li>Total Products: <%= @total_products %></li>
+  <li>Total Suppliers: <%= @total_suppliers %></li>
+  <li>Total Customers: <%= @total_customers %></li>
+</ul>
+
+<h2>Low Stock Products</h2>
+<% if @low_stock_products.any? %>
+  <ul>
+    <% @low_stock_products.each do |product| %>
+      <li><%= product.name %> (Quantity: <%= product.quantity %>)</li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>All products are sufficiently stocked!</p>
+<% end %>
+
+<h2>Sales Data</h2>
+<ul>
+  <% @sales_data.each do |status, count| %>
+    <li><%= status.titleize %>: <%= count %></li>
+  <% end %>
+</ul>
+<%= link_to 'Inventory Report', reports_inventory_path %>
+<%= link_to 'Reorder Points', reports_reorder_points_path %>
+<%= link_to 'Stock Movements', reports_stock_movements_path %>
+<%= link_to 'Sales Reports',  reports_sales_path %>

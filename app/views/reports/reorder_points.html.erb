@@ -1,0 +1,26 @@
+<h1>Reorder Points Report</h1>
+
+<% if @products.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Threshold</th>
+        <th>Supplier</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.quantity %></td>
+          <td><%= product.threshold %></td>
+          <td><%= product.supplier.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No products are below the reorder threshold.</p>
+<% end %>

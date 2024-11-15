@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  get 'reports/inventory'
+  get 'reports/reorder_points'
+  get 'reports/stock_movements'
+  get 'reports/sales'
+
+  resources :reports, only: [] do
+    collection do
+      get :sales
+    end
+  end
   # Other routes...
   root 'dashboard#index'  # Set the dashboard as the root page
   get 'dashboard', to: 'dashboard#index'
