@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_15_180600) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_15_185120) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_180600) do
     t.datetime "updated_at", null: false
     t.bigint "supplier_id", null: false
     t.integer "quantity"
+    t.integer "threshold"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 
@@ -85,6 +86,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_180600) do
     t.index ["customer_id"], name: "index_sales_orders_on_customer_id"
   end
 
+  create_table "stock_movements", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.integer "change_quantity"
+    t.string "change_type"
+    t.string "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_stock_movements_on_product_id"
+  end
+
   create_table "suppliers", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -101,4 +112,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_180600) do
   add_foreign_key "sales_order_items", "products"
   add_foreign_key "sales_order_items", "sales_orders"
   add_foreign_key "sales_orders", "customers"
+  add_foreign_key "stock_movements", "products"
 end
