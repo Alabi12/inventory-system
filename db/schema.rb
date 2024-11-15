@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_15_151908) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_15_180600) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_151908) do
     t.integer "low_stock_threshold"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "supplier_id", null: false
+    t.integer "quantity"
+    t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 
   create_table "purchase_order_items", force: :cascade do |t|
@@ -91,6 +94,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_151908) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "products", "suppliers"
   add_foreign_key "purchase_order_items", "products"
   add_foreign_key "purchase_order_items", "purchase_orders"
   add_foreign_key "purchase_orders", "suppliers"

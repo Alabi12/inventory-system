@@ -16,6 +16,11 @@
     <%= form.text_field :name %>
   </div>
 
+  <div class="field">
+  <%= form.label :supplier_id, "Supplier" %>
+  <%= form.collection_select :supplier_id, Supplier.all, :id, :name, prompt: "Select a supplier" %>
+</div>
+
   <div>
     <%= form.label :sku, style: "display: block" %>
     <%= form.text_field :sku %>
@@ -24,6 +29,10 @@
   <div>
     <%= form.label :price, style: "display: block" %>
     <%= form.text_field :price %>
+  </div>
+  <div>
+    <%= form.label :quantity, style: "display: block" %>
+    <%= form.text_field :quantity %>
   </div>
 
   <div>
