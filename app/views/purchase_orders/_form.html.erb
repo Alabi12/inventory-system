@@ -16,10 +16,10 @@
     <%= form.text_field :supplier_id %>
   </div>
 
-  <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.number_field :status %>
-  </div>
+<div class="field">
+  <%= form.label :status %>
+  <%= form.select :status, PurchaseOrder.statuses.keys.map { |status| [status.humanize, status] }, prompt: "Select Status" %>
+</div>
 
   <div>
     <%= form.label :order_date, style: "display: block" %>
