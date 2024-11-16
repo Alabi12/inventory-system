@@ -9,6 +9,11 @@ class CustomersController < ApplicationController
   # GET /customers/1 or /customers/1.json
   def show
   end
+  
+  def customer_history
+    @customer = Customer.find(params[:id])
+    @purchase_history = @customer.sales_orders.includes(:product)
+  end
 
   # GET /customers/new
   def new

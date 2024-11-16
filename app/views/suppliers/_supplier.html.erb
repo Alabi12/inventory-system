@@ -20,3 +20,27 @@
   </p>
 
 </div>
+
+<h1>Supplier Performance</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Supplier</th>
+      <th>Average Delivery Time (Days)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @supplier_performance.present? %>
+  <tbody>
+    <tr>
+      <td><%= @supplier_performance.name %></td>
+      <td><%= @supplier_performance.avg_purchase_delivery_time.to_f.round(2) %></td>
+      <td><%= @supplier_performance.avg_sales_delivery_time.to_f.round(2) %></td>
+    </tr>
+  </tbody>
+<% else %>
+  <p>No performance data available for this supplier.</p>
+<% end %>
+  </tbody>
+</table>
