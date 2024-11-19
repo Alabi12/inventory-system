@@ -1,18 +1,29 @@
 class PurchaseOrdersController < ApplicationController
   before_action :set_purchase_order, only: %i[ show edit update destroy ]
+  before_action :set_supplier, only: [:new, :create]
 
   # GET /purchase_orders or /purchase_orders.json
   def index
     @purchase_orders = PurchaseOrder.all
   end
 
-  # GET /purchase_orders/1 or /purchase_orders/1.json
-  def show
-  end
-
-  # GET /purchase_orders/new
   def new
     @purchase_order = PurchaseOrder.new
+    @purchase_order.purchase_order_items.build  # Initialize at least one item
+  end
+
+  def create
+    @purchase_order = PurchaseOrder.new(purchase_order_params)
+    if @purchase_order.save
+      redirect_to @purchase_order, notice: 'Purchase Order was successfully created.'
+    else
+      render :new
+    end
+  end
+
+  # GET /purchase_orders/1 or /purchase_orders/1.json
+  def show
+    @purchase_order = PurchaseOrder.find(params[:id])  # Find the specific purchase order by ID
   end
 
   # GET /purchase_orders/1/edit
@@ -23,14 +34,12 @@ class PurchaseOrdersController < ApplicationController
   def create
     @purchase_order = PurchaseOrder.new(purchase_order_params)
 
-    respond_to do |format|
-      if @purchase_order.save
-        format.html { redirect_to @purchase_order, notice: "Purchase order was successfully created." }
-        format.json { render :show, status: :created, location: @purchase_order }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
-      end
+    if @purchase_order.save
+      # If the order is saved successfully, redirect to the show page
+      redirect_to @purchase_order, notice: 'Purchase Order was successfully created!'
+    else
+      # If there are errors, render the form again with the errors
+      render :new
     end
   end
 
@@ -63,8 +72,12 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order = PurchaseOrder.find(params[:id])
     end
 
+    def set_supplier
+      @suppliers = Supplier.all
+    end
+
     # Only allow a list of trusted parameters through.
     def purchase_order_params
-      params.require(:purchase_order).permit(:supplier_id, :status, :order_date, :received_date)
+      params.require(:purchase_order).permit(:customer_id, :supplier_id, :status, :order_date, :received_date, :quantity)
     end
 end

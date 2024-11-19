@@ -1,46 +1,24 @@
-<div id="<%= dom_id customer %>">
-  <p>
-    <strong>Name:</strong>
-    <%= customer.name %>
-  </p>
+<% @customers.each do |customer| %>
+  <h3><%= customer.name %></h3>
 
-  <p>
-    <strong>Email:</strong>
-    <%= customer.email %>
-  </p>
-
-  <p>
-    <strong>Phone:</strong>
-    <%= customer.phone %>
-  </p>
-
-  <p>
-    <strong>Address:</strong>
-    <%= customer.address %>
-  </p>
-
-</div>
-
-<h1>Purchase History for <%= @customer.name %></h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Product</th>
-      <th>Quantity</th>
-      <th>Total</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @purchase_history.each do |order| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= order.order_date %></td>
-        <td><%= order.product.name %></td>
-        <td><%= order.quantity %></td>
-        <td><%= order.total_price %></td>
+        <th>Order Date</th>
+        <th>Product</th>
+        <th>Quantity</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
+    </thead>
+    <tbody>
+      <% customer.purchase_orders.each do |order| %>
+        <% order.purchase_order_items.each do |item| %>
+          <tr>
+            <td><%= order.order_date %></td>
+            <td><%= item.product.name %></td> <!-- Access the product via the item -->
+            <td><%= item.quantity %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

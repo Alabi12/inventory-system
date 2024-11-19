@@ -9,6 +9,8 @@ gem "rails", "~> 7.1.5"
 gem "sprockets-rails"
 
 gem 'groupdate'
+gem 'cocoon'
+
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"

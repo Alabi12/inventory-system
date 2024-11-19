@@ -3,15 +3,9 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers or /suppliers.json
   def index
-    @suppliers = Supplier.all
-  
-    @supplier_performance = Supplier.joins(:purchase_orders, :sales_orders)
-    .select("suppliers.name, AVG(purchase_orders.delivery_time) AS avg_purchase_delivery_time, AVG(sales_orders.delivery_time) AS avg_sales_delivery_time")
-    .group("suppliers.id")
-    .map { |supplier| { supplier: supplier, avg_purchase_delivery_time: supplier.avg_purchase_delivery_time, avg_sales_delivery_time: supplier.avg_sales_delivery_time } }
+    @suppliers = Supplier.all  # Fetch all suppliers (or adjust query as necessary)
   end
   
-
   def supplier_performance
     @supplier_performance = Supplier.joins(:purchase_orders)
                                      .group("suppliers.id")

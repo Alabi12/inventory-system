@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_16_014105) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_18_234039) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_16_014105) do
 
   create_table "products", force: :cascade do |t|
     t.string "name"
-    t.string "sku"
+    t.string "product_code"
     t.decimal "price"
     t.integer "stock_level"
     t.integer "low_stock_threshold"
@@ -43,6 +43,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_16_014105) do
     t.bigint "supplier_id", null: false
     t.integer "quantity"
     t.integer "threshold"
+    t.string "category"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 
@@ -52,6 +53,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_16_014105) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "price"
     t.index ["product_id"], name: "index_purchase_order_items_on_product_id"
     t.index ["purchase_order_id"], name: "index_purchase_order_items_on_purchase_order_id"
   end
@@ -66,6 +68,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_16_014105) do
     t.date "date"
     t.decimal "total_amount"
     t.float "delivery_time"
+    t.bigint "customer_id"
+    t.index ["customer_id"], name: "index_purchase_orders_on_customer_id"
     t.index ["supplier_id"], name: "index_purchase_orders_on_supplier_id"
   end
 
@@ -75,6 +79,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_16_014105) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "price"
     t.index ["product_id"], name: "index_sales_order_items_on_product_id"
     t.index ["sales_order_id"], name: "index_sales_order_items_on_sales_order_id"
   end
