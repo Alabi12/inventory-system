@@ -35,12 +35,11 @@ class ReportsController < ApplicationController
   end
 
   def sales
-    @start_date = params[:start_date].presence || 30.days.ago.to_date
-    @end_date = params[:end_date].presence || Date.today
-
-    @sales_orders = SalesOrder.includes(:customer, :products)
-                              .where(created_at: @start_date..@end_date)
-  end
+    @sales_orders = SalesOrder.joins(:sales_order_items)
+                              .select('sales_orders.id, sales_orders.order_date, SUM(sales_order_items.quantity * sales_order_items.price) AS total_price')
+                              .group('sales_orders.id')
+                              .order('sales_orders.order_date ASC')
+  end  
 
   private
 

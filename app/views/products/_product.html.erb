@@ -1,33 +1,24 @@
-<div id="<%= dom_id(product) %>">
-  <table>
-    <thead>
+<table>
+    <tr>
+      <th>Name</th>
+      <th>Product Code</th>
+      <th>Category</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  <tbody>
       <tr>
-        <% %w[Name Product_Code Category Quantity Price Actions].each do |header| %>
-          <th><%= header %></th>
-        <% end %>
+        <td><%= product.name %></td>
+        <td><%= product.product_code %></td>
+        <td><%= product.category %></td>
+        <td><%= product.quantity %></td>
+        <td><%= number_to_currency(product.price) %></td>
+        <td>
+          <%= link_to 'Show', product %> |
+          <%= link_to 'Edit', edit_product_path(product) %> |
+          <%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      <% if @products.present? %>
-        <% @products.each do |product| %>
-          <tr>
-            <td><%= product.name %></td>
-            <td><%= product.product_code %></td>
-            <td><%= product.category %></td>
-            <td><%= product.quantity %></td>
-            <td><%= number_to_currency(product.price) %></td>
-            <td>
-              <%= link_to 'Show', product %> |
-              <%= link_to 'Edit', edit_product_path(product) %> |
-              <%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %>
-            </td>
-          </tr>
-        <% end %>
-      <% else %>
-        <tr>
-          <td colspan="6">No products found</td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+  </tbody>
+</table>

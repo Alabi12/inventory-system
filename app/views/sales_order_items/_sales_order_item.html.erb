@@ -1,0 +1,30 @@
+<!-- app/views/sales_orders/show.html.erb -->
+<h1>Sales Order</h1>
+<p>
+  <strong>Customer:</strong> <%= @sales_order.customer.name %><br>
+  <strong>Status:</strong> <%= @sales_order.status %><br>
+  <strong>Order Date:</strong> <%= @sales_order.order_date %><br>
+  <strong>Total Amount:</strong> <%= number_to_currency(@sales_order.total_amount) %>
+</p>
+
+<h3>Order Items:</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total Price</th> <!-- Added column for total price -->
+    </tr>
+  </thead>
+  <tbody>
+    <% @sales_order.sales_order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.price) %></td> <!-- Display total price here -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

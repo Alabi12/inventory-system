@@ -17,7 +17,7 @@ class SalesOrderItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create sales_order_item" do
     assert_difference("SalesOrderItem.count") do
-      post sales_order_items_url, params: { sales_order_item: { product_id: @sales_order_item.product_id, quantity: @sales_order_item.quantity, sales_order_id: @sales_order_item.sales_order_id } }
+      post sales_order_items_url, params: { sales_order_item: { price: @sales_order_item.price, product_id: @sales_order_item.product_id, quantity: @sales_order_item.quantity, sales_order_id: @sales_order_item.sales_order_id } }
     end
 
     assert_redirected_to sales_order_item_url(SalesOrderItem.last)
@@ -34,7 +34,7 @@ class SalesOrderItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update sales_order_item" do
-    patch sales_order_item_url(@sales_order_item), params: { sales_order_item: { product_id: @sales_order_item.product_id, quantity: @sales_order_item.quantity, sales_order_id: @sales_order_item.sales_order_id } }
+    patch sales_order_item_url(@sales_order_item), params: { sales_order_item: { price: @sales_order_item.price, product_id: @sales_order_item.product_id, quantity: @sales_order_item.quantity, sales_order_id: @sales_order_item.sales_order_id } }
     assert_redirected_to sales_order_item_url(@sales_order_item)
   end
 
