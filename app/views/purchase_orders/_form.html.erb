@@ -11,7 +11,7 @@
 
   <div class="form-group">
     <%= form.label :status, "Status" %>
-    <%= form.select :status, options_for_select(["pending", "completed", "shipped"], @purchase_order.status) %>
+    <%= form.select :status, options_for_select(["pending", "received", "cancelled"], @purchase_order.status) %>
   </div>
   <!-- Supplier, Customer, and other fields -->
   <div class="form-group">

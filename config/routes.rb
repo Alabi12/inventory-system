@@ -13,8 +13,9 @@ Rails.application.routes.draw do
   resources :purchase_orders do
     resources :purchase_order_items
   end
+
   resources :sales_orders do
-    resources :sales_order_items
+    resources :sales_order_items, only: [:index, :show]
   end
   
   # Other routes...

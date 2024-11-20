@@ -46,12 +46,12 @@ class PurchaseOrdersController < ApplicationController
   # PATCH/PUT /purchase_orders/1 or /purchase_orders/1.json
   def update
     respond_to do |format|
-      if @sales_order.update(sales_order_params)
-        format.html { redirect_to @sales_order, notice: "Sales order updated successfully." }
-        format.turbo_stream
+      if @purchase_order.update(purchase_order_params)
+        format.html { redirect_to @purchase_order, notice: "Purchase order was successfully updated." }
+        format.json { render :show, status: :ok, location: @purchase_order }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@sales_order, partial: "sales_orders/form", locals: { sales_order: @sales_order }) }
+        format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
       end
     end
   end

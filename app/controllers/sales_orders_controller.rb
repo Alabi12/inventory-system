@@ -49,9 +49,6 @@ class SalesOrdersController < ApplicationController
     @sales_order = SalesOrder.find(params[:id])
   end
 
-  private
-
-  private
 
   def sales_order_params
     params.require(:sales_order).permit(
