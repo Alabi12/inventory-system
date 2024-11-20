@@ -3,15 +3,29 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers or /suppliers.json
   def index
-    @suppliers = Supplier.all
+    @suppliers = Supplier.all  # Fetch all suppliers (or adjust query as necessary)
   end
-
+  
+  def supplier_performance
+    @supplier_performance = Supplier.joins(:purchase_orders)
+                                     .group("suppliers.id")
+                                     .select("suppliers.name, AVG(purchase_orders.delivery_time) AS avg_delivery_time")
+  end
+  
   # GET /suppliers/1 or /suppliers/1.json
   def show
     @supplier = Supplier.find(params[:id])
-    @products = @supplier.products
+    
+    # Ensure @supplier_performance is an array and not an integer.
+    @supplier_performance = Supplier.joins(:purchase_orders, :sales_orders)
+                                     .select("suppliers.name, AVG(purchase_orders.delivery_time) AS avg_purchase_delivery_time, AVG(sales_orders.delivery_time) AS avg_sales_delivery_time")
+                                     .where(id: @supplier.id)
+                                     .group("suppliers.id")
+    
+    # Fetch the first record since it's a single supplier's performance.
+    @supplier_performance = @supplier_performance.first
   end
-
+  
   # GET /suppliers/new
   def new
     @supplier = Supplier.new

@@ -3,11 +3,17 @@ class CustomersController < ApplicationController
 
   # GET /customers or /customers.json
   def index
-    @customers = Customer.all
+    @customers = Customer.includes(:purchase_orders).all
   end
 
   # GET /customers/1 or /customers/1.json
   def show
+    @customers = Customer.all
+  end
+  
+  def customer_history
+    @customer = Customer.find(params[:id])
+    @purchase_history = @customer.sales_orders.includes(:product)
   end
 
   # GET /customers/new

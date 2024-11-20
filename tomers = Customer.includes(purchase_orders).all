@@ -1,0 +1,41 @@
+=> 
+[[32m#<Customer:0x000001f2679d8fb8[0m
+  id: [34m[1m1[0m,
+  name: [31m[1m"[0m[31mJohn Doe[0m[31m[1m"[0m,
+  email: [31m[1m"[0m[31mjohn@example.com[0m[31m[1m"[0m,
+  phone: [31m[1m"[0m[31m1234567890[0m[31m[1m"[0m,
+  address: [31m[1m"[0m[31m123 Main St[0m[31m[1m"[0m,
+  created_at: Sat, 16 Nov 2024 17:19:03.794556000 UTC +00:00,
+  updated_at: Sat, 16 Nov 2024 17:19:03.794556000 UTC +00:00[32m>[0m,
+ [32m#<Customer:0x000001f267eed490[0m
+  id: [34m[1m2[0m,
+  name: [31m[1m"[0m[31mKitchen Dep[0m[31m[1m"[0m,
+  email: [31m[1m"[0m[31mkkd@gmail.com[0m[31m[1m"[0m,
+  phone: [31m[1m"[0m[31m27766556[0m[31m[1m"[0m,
+  address: [31m[1m"[0m[31mNungua[0m[31m[1m"[0m,
+  created_at: Sat, 16 Nov 2024 17:22:02.307269000 UTC +00:00,
+  updated_at: Sat, 16 Nov 2024 17:22:02.307269000 UTC +00:00[32m>[0m,
+ [32m#<Customer:0x000001f267eed210[0m
+  id: [34m[1m3[0m,
+  name: [31m[1m"[0m[31mKitchen Dep[0m[31m[1m"[0m,
+  email: [31m[1m"[0m[31mkkd@gmail.com[0m[31m[1m"[0m,
+  phone: [31m[1m"[0m[31m27766556[0m[31m[1m"[0m,
+  address: [31m[1m"[0m[31mNungua[0m[31m[1m"[0m,
+  created_at: Sat, 16 Nov 2024 17:25:54.811565000 UTC +00:00,
+  updated_at: Sat, 16 Nov 2024 17:25:54.811565000 UTC +00:00[32m>[0m,
+ [32m#<Customer:0x000001f267eed0d0[0m
+  id: [34m[1m4[0m,
+  name: [31m[1m"[0m[31mJohn Doe[0m[31m[1m"[0m,
+  email: [31m[1m"[0m[31mjohn@example.com[0m[31m[1m"[0m,
+  phone: [31m[1m"[0m[31m1234567890[0m[31m[1m"[0m,
+  address: [31m[1m"[0m[31m123 Main St[0m[31m[1m"[0m,
+  created_at: Sat, 16 Nov 2024 22:58:19.988736000 UTC +00:00,
+  updated_at: Sat, 16 Nov 2024 22:58:19.988736000 UTC +00:00[32m>[0m,
+ [32m#<Customer:0x000001f267eecf90[0m
+  id: [34m[1m5[0m,
+  name: [31m[1m"[0m[31mKojo Manu[0m[31m[1m"[0m,
+  email: [31m[1m"[0m[31mrbaby@gmail.com[0m[31m[1m"[0m,
+  phone: [31m[1m"[0m[31m024455667[0m[31m[1m"[0m,
+  address: [31m[1m"[0m[31mAccra[0m[31m[1m"[0m,
+  created_at: Sat, 16 Nov 2024 23:02:00.235599000 UTC +00:00,
+  updated_at: Sat, 16 Nov 2024 23:02:00.235599000 UTC +00:00[32m>[0m]

@@ -1,22 +1,39 @@
-<div id="<%= dom_id customer %>">
-  <p>
+<% @customers.each do |customer| %>
+ <p>
     <strong>Name:</strong>
     <%= customer.name %>
   </p>
-
-  <p>
+ <p>
     <strong>Email:</strong>
     <%= customer.email %>
   </p>
-
-  <p>
+ <p>
     <strong>Phone:</strong>
     <%= customer.phone %>
   </p>
-
-  <p>
+ <p>
     <strong>Address:</strong>
     <%= customer.address %>
   </p>
 
-</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Order Date</th>
+        <th>Product</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% customer.purchase_orders.each do |order| %>
+        <% order.purchase_order_items.each do |item| %>
+          <tr>
+            <td><%= order.order_date %></td>
+            <td><%= item.product.name %></td> <!-- Access the product via the item -->
+            <td><%= item.quantity %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

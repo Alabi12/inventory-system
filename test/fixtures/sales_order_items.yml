@@ -4,8 +4,10 @@ one:
   sales_order: one
   product: one
   quantity: 1
+  price: 9.99
 
 two:
   sales_order: two
   product: two
   quantity: 1
+  price: 9.99

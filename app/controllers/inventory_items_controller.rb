@@ -6,6 +6,7 @@ class InventoryItemsController < ApplicationController
   end
 
   def show
+    @inventory_item = InventoryItem.find(params[:id])
   end
 
   def new

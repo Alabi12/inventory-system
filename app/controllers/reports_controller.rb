@@ -1,6 +1,27 @@
 class ReportsController < ApplicationController
   # before_action :authenticate_user! # Ensure only authenticated users can access
   
+  def inventory_trends
+    @inventory_trends = StockMovement.group("DATE(created_at)").sum(:quantity)
+  end
+  
+  def sales
+    @sales_orders = SalesOrder.includes(:customer, :product).all
+
+    # Filtering logic
+    if params[:start_date].present? && params[:end_date].present?
+      @sales_orders = @sales_orders.where(order_date: params[:start_date]..params[:end_date])
+    end
+
+    if params[:category_id].present?
+      @sales_orders = @sales_orders.joins(:product).where(products: { category_id: params[:category_id] })
+    end
+
+    if params[:customer_id].present?
+      @sales_orders = @sales_orders.where(customer_id: params[:customer_id])
+    end
+  end
+
   def inventory
     @products = Product.includes(:supplier).order(:name)
   end
@@ -10,16 +31,26 @@ class ReportsController < ApplicationController
   end
 
   def stock_movements
-    @stock_movements = StockMovement.includes(:product).order(created_at: :desc)
+    @products = Product.includes(:inventory_item, :sales_order_items, :purchase_order_items).map do |product|
+      received_quantity = product.purchase_order_items.sum(:quantity)
+      sold_quantity = product.sales_order_items.sum(:quantity)
+      current_inventory = product.inventory_item&.quantity || 0
+
+      {
+        name: product.name,
+        received_quantity: received_quantity,
+        sold_quantity: sold_quantity,
+        current_inventory: current_inventory
+      }
+    end
   end
 
   def sales
-    @start_date = params[:start_date].presence || 30.days.ago.to_date
-    @end_date = params[:end_date].presence || Date.today
-
-    @sales_orders = SalesOrder.includes(:customer, :products)
-                              .where(created_at: @start_date..@end_date)
-  end
+    @sales_orders = SalesOrder.joins(:sales_order_items)
+                              .select('sales_orders.id, sales_orders.order_date, SUM(sales_order_items.quantity * sales_order_items.price) AS total_price')
+                              .group('sales_orders.id')
+                              .order('sales_orders.order_date ASC')
+  end  
 
   private
 

@@ -1,10 +1,13 @@
 class SalesOrderItemsController < ApplicationController
-  before_action :set_sales_order_item, only: %i[ show edit update destroy ]
-
+  before_action :set_sales_order_item, only: %i[show edit update destroy ]
+  # before_action :set_sales_order, only: [:index, :show, :new, :create]
+  
   # GET /sales_order_items or /sales_order_items.json
   def index
     @sales_order_items = SalesOrderItem.all
+    puts @sales_order_items.inspect
   end
+  
 
   # GET /sales_order_items/1 or /sales_order_items/1.json
   def show
@@ -65,6 +68,6 @@ class SalesOrderItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sales_order_item_params
-      params.require(:sales_order_item).permit(:sales_order_id, :product_id, :quantity)
+      params.require(:sales_order_item).permit(:sales_order_id, :product_id, :quantity, :price, :customer)
     end
 end

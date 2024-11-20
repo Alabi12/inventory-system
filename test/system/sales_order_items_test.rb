@@ -14,6 +14,7 @@ class SalesOrderItemsTest < ApplicationSystemTestCase
     visit sales_order_items_url
     click_on "New sales order item"
 
+    fill_in "Price", with: @sales_order_item.price
     fill_in "Product", with: @sales_order_item.product_id
     fill_in "Quantity", with: @sales_order_item.quantity
     fill_in "Sales order", with: @sales_order_item.sales_order_id
@@ -27,6 +28,7 @@ class SalesOrderItemsTest < ApplicationSystemTestCase
     visit sales_order_item_url(@sales_order_item)
     click_on "Edit this sales order item", match: :first
 
+    fill_in "Price", with: @sales_order_item.price
     fill_in "Product", with: @sales_order_item.product_id
     fill_in "Quantity", with: @sales_order_item.quantity
     fill_in "Sales order", with: @sales_order_item.sales_order_id

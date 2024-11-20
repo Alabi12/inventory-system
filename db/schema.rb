@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_15_235951) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_20_165414) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_235951) do
 
   create_table "products", force: :cascade do |t|
     t.string "name"
-    t.string "sku"
+    t.string "product_code"
     t.decimal "price"
     t.integer "stock_level"
     t.integer "low_stock_threshold"
@@ -43,6 +43,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_235951) do
     t.bigint "supplier_id", null: false
     t.integer "quantity"
     t.integer "threshold"
+    t.string "category"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 
@@ -52,6 +53,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_235951) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "price"
     t.index ["product_id"], name: "index_purchase_order_items_on_product_id"
     t.index ["purchase_order_id"], name: "index_purchase_order_items_on_purchase_order_id"
   end
@@ -65,27 +67,35 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_235951) do
     t.datetime "updated_at", null: false
     t.date "date"
     t.decimal "total_amount"
+    t.float "delivery_time"
+    t.bigint "customer_id"
+    t.index ["customer_id"], name: "index_purchase_orders_on_customer_id"
     t.index ["supplier_id"], name: "index_purchase_orders_on_supplier_id"
   end
 
   create_table "sales_order_items", force: :cascade do |t|
-    t.bigint "sales_order_id", null: false
     t.bigint "product_id", null: false
     t.integer "quantity"
+    t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "sales_order_id"
     t.index ["product_id"], name: "index_sales_order_items_on_product_id"
-    t.index ["sales_order_id"], name: "index_sales_order_items_on_sales_order_id"
   end
 
   create_table "sales_orders", force: :cascade do |t|
     t.bigint "customer_id", null: false
-    t.integer "status"
+    t.bigint "supplier_id", null: false
+    t.string "status"
     t.date "order_date"
-    t.date "delivery_date"
+    t.date "received_date"
+    t.decimal "total_amount"
+    t.decimal "delivery_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "total_price"
     t.index ["customer_id"], name: "index_sales_orders_on_customer_id"
+    t.index ["supplier_id"], name: "index_sales_orders_on_supplier_id"
   end
 
   create_table "stock_movements", force: :cascade do |t|
@@ -112,7 +122,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_235951) do
   add_foreign_key "purchase_order_items", "purchase_orders"
   add_foreign_key "purchase_orders", "suppliers"
   add_foreign_key "sales_order_items", "products"
-  add_foreign_key "sales_order_items", "sales_orders"
   add_foreign_key "sales_orders", "customers"
+  add_foreign_key "sales_orders", "suppliers"
   add_foreign_key "stock_movements", "products"
 end

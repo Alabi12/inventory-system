@@ -1,22 +1,27 @@
-<div id="<%= dom_id purchase_order %>">
-  <p>
-    <strong>Supplier:</strong>
-    <%= purchase_order.supplier_id %>
-  </p>
+<h1>Purchase Order Details</h1>
 
-  <p>
-    <strong>Status:</strong>
-    <%= purchase_order.status %>
-  </p>
+<p><strong>Supplier:</strong> <%= @purchase_order.supplier.name %></p>
+<p><strong>Customer:</strong> <%= @purchase_order.customer.name %></p>
+<p><strong>Status:</strong> <%= @purchase_order.status %></p>
+<p><strong>Order Date:</strong> <%= @purchase_order.order_date %></p>
+<p><strong>Received Date:</strong> <%= @purchase_order.received_date %></p>
 
-  <p>
-    <strong>Order date:</strong>
-    <%= purchase_order.order_date %>
-  </p>
-
-  <p>
-    <strong>Received date:</strong>
-    <%= purchase_order.received_date %>
-  </p>
-
-</div>
+<h2>Order Items</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @purchase_order.purchase_order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= item.quantity %></td>
+        <td><%= item.product.price %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,37 +1,52 @@
-<%= form_with(model: purchase_order) do |form| %>
-  <% if purchase_order.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(purchase_order.errors.count, "error") %> prohibited this purchase_order from being saved:</h2>
-
-      <ul>
-        <% purchase_order.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :supplier_id, style: "display: block" %>
-    <%= form.text_field :supplier_id %>
+<%= form_with(model: @purchase_order, local: true) do |form| %>
+ <div class="form-group">
+    <%= form.label :customer_id, "Select Customer" %>
+    <%= form.collection_select :customer_id, Customer.all, :id, :name, { prompt: "Select a Customer" } %>
   </div>
 
-<div class="field">
-  <%= form.label :status %>
-  <%= form.select :status, PurchaseOrder.statuses.keys.map { |status| [status.humanize, status] }, prompt: "Select Status" %>
-</div>
-
-  <div>
-    <%= form.label :order_date, style: "display: block" %>
-    <%= form.date_field :order_date %>
+  <div class="form-group">
+    <%= form.label :order_date, "Order Date" %>
+    <%= form.date_field :order_date, value: Date.today %>
   </div>
 
-  <div>
-    <%= form.label :received_date, style: "display: block" %>
-    <%= form.date_field :received_date %>
+  <div class="form-group">
+    <%= form.label :status, "Status" %>
+    <%= form.select :status, options_for_select(["pending", "received", "cancelled"], @purchase_order.status) %>
+  </div>
+  <!-- Supplier, Customer, and other fields -->
+  <div class="form-group">
+    <%= form.label :supplier_id %>
+    <%= form.collection_select :supplier_id, Supplier.all, :id, :name, prompt: "Select Supplier" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-group">
+    <%= form.label :customer_id %>
+    <%= form.collection_select :customer_id, Customer.all, :id, :name, prompt: "Select Customer" %>
+  </div>
+
+  <!-- Nested fields for purchase_order_items -->
+  <div class="order-items">
+    <h2>Order Items</h2>
+    <%= form.fields_for :purchase_order_items do |item_form| %>
+      <div class="nested-fields">
+        <div class="form-group">
+          <%= item_form.label :product_id, "Product" %>
+          <%= item_form.collection_select :product_id, Product.all, :id, :name, prompt: "Select Product" %>
+        </div>
+
+        <div class="form-group">
+          <%= item_form.label :quantity %>
+          <%= item_form.number_field :quantity, min: 1 %>
+        </div>
+
+        <%= item_form.hidden_field :_destroy %>
+        <%= link_to 'Remove Item', '#', class: 'btn btn-danger' %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-primary">Add Item</button>
+    <%= form.submit "Save Order", class: "btn btn-primary" %>
   </div>
 <% end %>
