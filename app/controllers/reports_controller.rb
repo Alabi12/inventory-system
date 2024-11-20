@@ -31,7 +31,18 @@ class ReportsController < ApplicationController
   end
 
   def stock_movements
-    @stock_movements = StockMovement.includes(:product).order(created_at: :desc)
+    @products = Product.includes(:inventory_item, :sales_order_items, :purchase_order_items).map do |product|
+      received_quantity = product.purchase_order_items.sum(:quantity)
+      sold_quantity = product.sales_order_items.sum(:quantity)
+      current_inventory = product.inventory_item&.quantity || 0
+
+      {
+        name: product.name,
+        received_quantity: received_quantity,
+        sold_quantity: sold_quantity,
+        current_inventory: current_inventory
+      }
+    end
   end
 
   def sales
