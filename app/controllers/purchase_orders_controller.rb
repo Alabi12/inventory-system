@@ -53,11 +53,8 @@ class PurchaseOrdersController < ApplicationController
 
   def purchase_order_params
     params.require(:purchase_order).permit(
-      :supplier_id,
-      :order_date,
-      :received_date,
-      :status,
-      purchase_order_items_attributes: [:id, :product_id, :quantity, :price, :_destroy]
+      :supplier_id, :status, :order_date,
+      purchase_order_items_attributes: [:product_id, :quantity, :price, :_destroy]
     )
   end
 end

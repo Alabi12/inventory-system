@@ -54,7 +54,6 @@ class SalesOrdersController < ApplicationController
   def sales_order_params
     params.require(:sales_order).permit(
       :customer_id,
-      :supplier_id,
       :status,
       :order_date,
       :received_date,

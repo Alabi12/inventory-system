@@ -2,7 +2,6 @@ class CreateSalesOrders < ActiveRecord::Migration[7.1]
   def change
     create_table :sales_orders do |t|
       t.references :customer, null: false, foreign_key: true
-      t.references :supplier, null: false, foreign_key: true
       t.string :status
       t.date :order_date
       t.date :received_date

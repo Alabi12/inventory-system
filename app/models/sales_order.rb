@@ -1,6 +1,5 @@
 class SalesOrder < ApplicationRecord
   belongs_to :customer
-  belongs_to :supplier, optional: true
   has_many :sales_order_items, dependent: :destroy
   
   accepts_nested_attributes_for :sales_order_items, allow_destroy: true

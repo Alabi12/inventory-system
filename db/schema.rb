@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_22_021257) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_22_123532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -88,7 +88,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_021257) do
 
   create_table "sales_orders", force: :cascade do |t|
     t.bigint "customer_id", null: false
-    t.bigint "supplier_id", null: false
     t.string "status"
     t.date "order_date"
     t.date "received_date"
@@ -98,7 +97,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_021257) do
     t.datetime "updated_at", null: false
     t.decimal "total_price"
     t.index ["customer_id"], name: "index_sales_orders_on_customer_id"
-    t.index ["supplier_id"], name: "index_sales_orders_on_supplier_id"
   end
 
   create_table "stock_movements", force: :cascade do |t|
@@ -128,6 +126,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_22_021257) do
   add_foreign_key "purchase_orders", "suppliers"
   add_foreign_key "sales_order_items", "products"
   add_foreign_key "sales_orders", "customers"
-  add_foreign_key "sales_orders", "suppliers"
   add_foreign_key "stock_movements", "products"
 end
