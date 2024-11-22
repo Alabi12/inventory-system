@@ -1,4 +1,5 @@
 class Product < ApplicationRecord
+
   belongs_to :supplier
   has_many :stock_movements, dependent: :destroy
   has_many :purchase_order_items
@@ -10,4 +11,15 @@ class Product < ApplicationRecord
   has_many :sales_orders, through: :sales_order_items
 
   validates :name, :product_code, :category, :quantity, :price, presence: true
+  validates :reorder_point, numericality: { greater_than_or_equal_to: 0 }
+
+   # Method to check if product's inventory is below the reorder point
+   def needs_reorder?
+    current_inventory = inventory_item&.quantity.to_i
+    current_inventory < reorder_point.to_i
+  end
+
+  def current_balance
+    stock_movements.received.sum(:quantity) - stock_movements.sold.sum(:quantity)
+  end
 end

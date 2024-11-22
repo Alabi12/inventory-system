@@ -72,7 +72,9 @@ class ProductsController < ApplicationController
         :category,
         :quantity,
         :price,
+        :total_purchases,
         :supplier_id,
+        :reorder_point,
         :stock_level,
         :low_stock_threshold,
       )

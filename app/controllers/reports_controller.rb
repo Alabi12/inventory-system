@@ -27,14 +27,22 @@ class ReportsController < ApplicationController
   end
 
   def reorder_points
-    @products = Product.where('quantity <= threshold')
+    # Fetch all products that need reordering
+    @products_needing_reorder = Product.includes(:inventory_item).select { |product| product.needs_reorder? }
   end
 
   def stock_movements
-    @products = Product.includes(:inventory_item, :sales_order_items, :purchase_order_items).map do |product|
-      received_quantity = product.purchase_order_items.sum(:quantity)
-      sold_quantity = product.sales_order_items.sum(:quantity)
-      current_inventory = product.inventory_item&.quantity || 0
+    # Optional: Handle search by product name
+    @search_query = params[:search]
+    products = Product.includes(:stock_movements)
+
+    products = products.where('name ILIKE ?', "%#{@search_query}%") if @search_query.present?
+
+    # Prepare the report data
+    @products = products.map do |product|
+      received_quantity = product.stock_movements.received.sum(:quantity)
+      sold_quantity = product.stock_movements.sold.sum(:quantity)
+      current_inventory = received_quantity - sold_quantity
 
       {
         name: product.name,

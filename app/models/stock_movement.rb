@@ -1,6 +1,15 @@
 class StockMovement < ApplicationRecord
   belongs_to :product
 
-  validates :change_quantity, presence: true
-  validates :change_type, presence: true, inclusion: { in: %w[addition removal] }
+  validates :quantity, numericality: { greater_than_or_equal_to: 0 }
+  validates :movement_type, inclusion: { in: %w(received sold), message: "%{value} is not a valid movement type" }
+  # validates :change_quantity, presence: true
+
+  enum change_type: { increase: 0, decrease: 1 }  # or similar
+
+    # Define the received scope
+    scope :received, -> { where(movement_type: 'received') }
+
+    # Define the sold scope
+    scope :sold, -> { where(movement_type: 'sold') }
 end

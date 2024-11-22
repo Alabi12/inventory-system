@@ -1,26 +1,13 @@
-<h1>Reorder Points Report</h1>
+<h2>Products Needing Reorder</h2>
 
-<% if @products.any? %>
-  <table>
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Threshold</th>
-        <th>Supplier</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @products.each do |product| %>
-        <tr>
-          <td><%= product.name %></td>
-          <td><%= product.quantity %></td>
-          <td><%= product.threshold %></td>
-          <td><%= product.supplier.name %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<% if @products_needing_reorder.present? %>
+  <% @products_needing_reorder.each do |product| %>
+    <div class="alert alert-warning">
+      <h4><%= product.name %></h4>
+      <p>Current Inventory: <%= product.inventory_item.quantity %></p>
+      <p>Reorder Point: <%= product.reorder_point %></p>
+    </div>
+  <% end %>
 <% else %>
-  <p>No products are below the reorder threshold.</p>
+  <p>No products need reordering at the moment.</p>
 <% end %>

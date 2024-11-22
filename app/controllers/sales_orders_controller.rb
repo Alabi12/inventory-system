@@ -9,6 +9,7 @@ class SalesOrdersController < ApplicationController
   # GET /sales_orders/1
   def show
     @sales_orders = SalesOrder.all
+    @sales_order_items = @sales_order.sales_order_items
   end
 
   # GET /sales_orders/new

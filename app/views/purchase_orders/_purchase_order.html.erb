@@ -1,26 +1,28 @@
-<h1>Purchase Order Details</h1>
+<h1>Purchase Order</h1>
+<p>
+  <strong>Supplier:</strong> <%= @purchase_order.supplier.name %><br>
+  <strong>Status:</strong> <%= @purchase_order.status %><br>
+  <strong>Order Date:</strong> <%= @purchase_order.order_date %><br>
+  <strong>Total Amount:</strong> <%= number_to_currency(@purchase_order.total_amount) %>
+</p>
 
-<p><strong>Supplier:</strong> <%= @purchase_order.supplier.name %></p>
-<p><strong>Customer:</strong> <%= @purchase_order.customer.name %></p>
-<p><strong>Status:</strong> <%= @purchase_order.status %></p>
-<p><strong>Order Date:</strong> <%= @purchase_order.order_date %></p>
-<p><strong>Received Date:</strong> <%= @purchase_order.received_date %></p>
-
-<h2>Order Items</h2>
+<h3>Order Items</h3>
 <table>
   <thead>
     <tr>
       <th>Product</th>
       <th>Quantity</th>
       <th>Price</th>
+      <th>Total</th>
     </tr>
   </thead>
   <tbody>
-    <% @purchase_order.purchase_order_items.each do |item| %>
+    <% @purchase_order_items.each do |item| %>
       <tr>
-        <td><%= item.product.name %></td>
-        <td><%= item.quantity %></td>
-        <td><%= item.product.price %></td>
+         <td><%= item.product.name %></td>
+      <td><%= item.quantity %></td>
+      <td><%= number_to_currency(item.price || 0) %></td>
+      <td><%= number_to_currency(calculate_total(item.quantity, item.price)) %></td>
       </tr>
     <% end %>
   </tbody>
