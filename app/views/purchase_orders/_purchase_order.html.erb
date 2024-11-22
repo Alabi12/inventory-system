@@ -1,12 +1,10 @@
 <h1>Purchase Order Details</h1>
 
 <p><strong>Supplier:</strong> <%= @purchase_order.supplier.name %></p>
-<p><strong>Customer:</strong> <%= @purchase_order.customer.name %></p>
-<p><strong>Status:</strong> <%= @purchase_order.status %></p>
 <p><strong>Order Date:</strong> <%= @purchase_order.order_date %></p>
-<p><strong>Received Date:</strong> <%= @purchase_order.received_date %></p>
+<p><strong>Status:</strong> <%= @purchase_order.status %></p>
 
-<h2>Order Items</h2>
+<h2>Items</h2>
 <table>
   <thead>
     <tr>
@@ -20,8 +18,10 @@
       <tr>
         <td><%= item.product.name %></td>
         <td><%= item.quantity %></td>
-        <td><%= item.product.price %></td>
+        <td><%= number_to_currency(item.price) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<%= link_to "Back to Purchase Orders", purchase_orders_path, class: "btn btn-secondary" %>

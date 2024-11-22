@@ -1,0 +1,22 @@
+<h1>Record Stock Movement</h1>
+
+<%= form_with model: @stock_movement, local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :product_id, 'Product' %>
+    <%= f.collection_select :product_id, @products, :id, :name, prompt: 'Select a product', class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :movement_type, 'Movement Type' %>
+    <%= f.select :movement_type, [['Received', 'received'], ['Sold', 'sold']], prompt: 'Select type', class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :quantity, 'Quantity' %>
+    <%= f.number_field :quantity, class: 'form-control', min: 1 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit 'Record Movement', class: 'btn btn-primary' %>
+  </div>
+<% end %>

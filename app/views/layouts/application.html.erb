@@ -17,12 +17,11 @@
       <li><%= link_to 'Dashboard', dashboard_path %></li>
       <li><%= link_to 'Products', products_path %></li>
       <li><%= link_to 'Purchase Orders', purchase_orders_path %></li>
-        <li><%= link_to 'Purchase Order Items', purchase_order_items_path %></li>
       <li><%= link_to 'Sales Orders', sales_orders_path %></li>
-        <li><%= link_to 'Sales Order Items', sales_order_items_path %></li>
       <li><%= link_to 'Suppliers', suppliers_path %></li>
       <li><%= link_to 'Customers', customers_path %></li>
-      <li><%= link_to 'Inventory', inventory_items_path %></li>
+      <li><%= link_to 'Stock Movements', stock_movements_path %></li>
+      <li><%= link_to 'New Stock Movement', new_stock_movement_path %></li>
     </ul>
   </div>
 
@@ -35,10 +34,5 @@
       <%= yield %>
     </main>
   </div>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; <%= Time.now.year %> Your Company Name</p>
-  </footer>
 </body>
 </html>

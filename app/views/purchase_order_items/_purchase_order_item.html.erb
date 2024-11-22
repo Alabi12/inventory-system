@@ -1,17 +1,25 @@
-<div id="<%= dom_id purchase_order_item %>">
-  <p>
-    <strong>Purchase order:</strong>
-    <%= purchase_order_item.purchase_order_id %>
-  </p>
+<h1>Purchase Order Details</h1>
 
-  <p>
-    <strong>Product:</strong>
-    <%= purchase_order_item.product_id %>
-  </p>
+<p><strong>Supplier:</strong> <%= @purchase_order.supplier.name %></p>
+<p><strong>Status:</strong> <%= @purchase_order.status %></p>
+<p><strong>Order Date:</strong> <%= @purchase_order.order_date %></p>
 
-  <p>
-    <strong>Quantity:</strong>
-    <%= purchase_order_item.quantity %>
-  </p>
-
-</div>
+<h3>Order Items</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @purchase_order.purchase_order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.price) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

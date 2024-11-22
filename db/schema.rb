@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_20_165414) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_22_123532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_20_165414) do
     t.integer "quantity"
     t.integer "threshold"
     t.string "category"
+    t.integer "reorder_point", default: 0
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 
@@ -61,14 +62,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_20_165414) do
   create_table "purchase_orders", force: :cascade do |t|
     t.bigint "supplier_id", null: false
     t.integer "status"
+    t.decimal "price", precision: 15, scale: 2
     t.date "order_date"
     t.date "received_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "date"
-    t.decimal "total_amount"
     t.float "delivery_time"
     t.bigint "customer_id"
+    t.decimal "total_purchases"
+    t.decimal "total_amount"
     t.index ["customer_id"], name: "index_purchase_orders_on_customer_id"
     t.index ["supplier_id"], name: "index_purchase_orders_on_supplier_id"
   end
@@ -85,7 +88,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_20_165414) do
 
   create_table "sales_orders", force: :cascade do |t|
     t.bigint "customer_id", null: false
-    t.bigint "supplier_id", null: false
     t.string "status"
     t.date "order_date"
     t.date "received_date"
@@ -95,7 +97,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_20_165414) do
     t.datetime "updated_at", null: false
     t.decimal "total_price"
     t.index ["customer_id"], name: "index_sales_orders_on_customer_id"
-    t.index ["supplier_id"], name: "index_sales_orders_on_supplier_id"
   end
 
   create_table "stock_movements", force: :cascade do |t|
@@ -105,6 +106,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_20_165414) do
     t.string "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "quantity"
+    t.string "movement_type"
     t.index ["product_id"], name: "index_stock_movements_on_product_id"
   end
 
@@ -123,6 +126,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_20_165414) do
   add_foreign_key "purchase_orders", "suppliers"
   add_foreign_key "sales_order_items", "products"
   add_foreign_key "sales_orders", "customers"
-  add_foreign_key "sales_orders", "suppliers"
   add_foreign_key "stock_movements", "products"
 end

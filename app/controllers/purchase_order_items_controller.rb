@@ -12,7 +12,8 @@ class PurchaseOrderItemsController < ApplicationController
 
   # GET /purchase_order_items/new
   def new
-    @purchase_order_item = PurchaseOrderItem.new
+    @purchase_order = PurchaseOrder.new
+    @purchase_order.purchase_order_items.build
   end
 
   # GET /purchase_order_items/1/edit

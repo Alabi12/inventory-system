@@ -1,26 +1,23 @@
-# db/seeds.rb
+products = Product.all
 
-# Create suppliers
-supplier1 = Supplier.find_or_create_by!(name: "Supplier 1", email: "supplier1@example.com")
-supplier2 = Supplier.find_or_create_by!(name: "Supplier 2", email: "supplier2@example.com")
+products.each do |product|
+  # Simulate stock received
+  product.stock_movements.create!(quantity: 50, movement_type: 'received', created_at: Time.now)
 
-# Create products and associate with the supplier
-product1 = Product.create!(
-  name: "Laptop",
-  product_code: "LPT123",
-  category: "Electronics",
+  # Simulate stock sold
+  product.stock_movements.create!(quantity: 10, movement_type: 'sold', created_at: Time.now)
+end
+
+product = Product.create!(name: "Sample Product", reorder_point: 10, price: 100.0)
+
+purchase_order = PurchaseOrder.create!(
+  supplier: Supplier.create!(name: "Supplier A"),
+  order_date: Date.today,
+  status: "pending"
+)
+
+purchase_order.purchase_order_items.create!(
+  product: product,
   quantity: 10,
-  price: 1200.00,
-  supplier: supplier1
+  price: product.price
 )
-
-product2 = Product.create!(
-  name: "Smartphone",
-  product_code: "SM123",
-  category: "Electronics",
-  quantity: 20,
-  price: 800.00,
-  supplier: supplier2
-)
-
-# Add other records (e.g., customers, purchase orders, etc.)
