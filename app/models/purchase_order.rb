@@ -10,7 +10,6 @@ class PurchaseOrder < ApplicationRecord
   enum status: { pending: 0, received: 1, cancelled: 2 }
 
   validates :supplier, presence: true
-  validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
   has_many :purchase_order_items, dependent: :destroy
 

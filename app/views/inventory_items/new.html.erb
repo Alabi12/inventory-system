@@ -1,3 +1,5 @@
+<!-- app/views/inventory_items/new.html.erb -->
+
 <h1>Create a New Inventory Item</h1>
 
 <%= form_with(model: @inventory_item, local: true) do |form| %>
@@ -33,7 +35,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Create Inventory Item" %>
   </div>
 <% end %>
 

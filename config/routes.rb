@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'reports/stock_movements'
   get 'reports/sales'
 
-  resources :stock_movements, only: [:index, :new, :create]
+  resources :stock_movements
 
   resources :reports, only: [] do
     collection do

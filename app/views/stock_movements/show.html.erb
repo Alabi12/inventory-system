@@ -1,0 +1,8 @@
+<h1>Stock Movement Details</h1>
+
+<p><strong>Product:</strong> <%= @stock_movement.product.name %></p>
+<p><strong>Quantity:</strong> <%= @stock_movement.quantity %></p>
+<p><strong>Type:</strong> <%= @stock_movement.movement_type %></p>
+
+<%= link_to "Edit", edit_stock_movement_path(@stock_movement) %>
+<%= link_to "Back", stock_movements_path %>

@@ -7,6 +7,7 @@
       <th>Movement Type</th>
       <th>Quantity</th>
       <th>Date</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +17,8 @@
         <td><%= movement.movement_type.capitalize %></td>
         <td><%= movement.quantity %></td>
         <td><%= movement.created_at.strftime('%Y-%m-%d %H:%M:%S') %></td>
+        <td><%= link_to "Edit", edit_stock_movement_path(movement) %>
+        </td>
       </tr>
     <% end %>
   </tbody>

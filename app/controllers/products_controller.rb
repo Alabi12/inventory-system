@@ -20,6 +20,10 @@ class ProductsController < ApplicationController
   def edit
   end
 
+  def reorder
+    @products_needing_reorder = Product.includes(:inventory_item)
+                                       .where('inventory_items.quantity < products.reorder_point')
+  end
   # POST /products or /products.json
   def create
     @product = Product.new(product_params)
