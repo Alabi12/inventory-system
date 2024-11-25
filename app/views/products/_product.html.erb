@@ -1,3 +1,10 @@
+<div>
+<%= form_with url: products_path, method: :get do %>
+  <%= text_field_tag :query, params[:query], placeholder: "Search products..." %>
+  <%= submit_tag "Search" %>
+<% end %>
+</div>
+
 <table>
     <tr>
       <th>Name</th>

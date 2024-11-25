@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-
+  after_save :check_stock_level
   belongs_to :supplier
   has_many :stock_movements, dependent: :destroy
   has_many :purchase_order_items
@@ -21,5 +21,22 @@ class Product < ApplicationRecord
 
   def current_balance
     stock_movements.received.sum(:quantity) - stock_movements.sold.sum(:quantity)
+  end
+
+  def search_data
+    {
+      name: name,
+      product_code: product_code,
+      category: category,
+      stock_level: stock_level,
+    }
+  end
+
+  private
+
+  def check_stock_level
+    if stock_level <= reorder_point
+      notify_reorder
+    end
   end
 end

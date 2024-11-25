@@ -23,6 +23,7 @@
         <td><%= sales_order_item.quantity %></td>
         <td><%= number_to_currency(sales_order_item.price) %></td>
         <td><%= number_to_currency(sales_order_item.quantity * sales_order_item.price) %></td>
+        <td><%= line_chart @sales_data, height: "300px" %></td>
       </tr>
     <% end %>
   </tbody>

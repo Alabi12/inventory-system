@@ -10,7 +10,6 @@ gem "sprockets-rails"
 
 gem 'groupdate'
 gem 'cocoon'
-gem 'groupdate'
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
@@ -71,3 +70,5 @@ group :test do
 end
 
 gem "chartkick", "~> 5.1"
+
+gem "searchkick", "~> 5.4"

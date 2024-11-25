@@ -111,6 +111,7 @@ GEM
       activesupport (>= 6.1)
     groupdate (6.5.1)
       activesupport (>= 7)
+    hashie (5.0.0)
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
@@ -203,6 +204,9 @@ GEM
       io-console (~> 0.5)
     rexml (3.3.9)
     rubyzip (2.3.2)
+    searchkick (5.4.0)
+      activemodel (>= 6.1)
+      hashie
     securerandom (0.3.2)
     selenium-webdriver (4.26.0)
       base64 (~> 0.2)
@@ -258,6 +262,7 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.1.5)
+  searchkick (~> 5.4)
   selenium-webdriver
   sprockets-rails
   stimulus-rails

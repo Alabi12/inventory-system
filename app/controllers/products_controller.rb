@@ -4,8 +4,12 @@ class ProductsController < ApplicationController
   # GET /products or /products.json
   def index
     @products = Product.all
+    @products = if params[:query].present?
+                  Product.search(params[:query])
+                else
+                  Product.all
+                end
   end
-
   # GET /products/1 or /products/1.json
   def show
     @products = Product.all
