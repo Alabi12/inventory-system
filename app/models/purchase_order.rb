@@ -1,17 +1,11 @@
 class PurchaseOrder < ApplicationRecord
   belongs_to :supplier
-
-  has_many :purchase_order_items
-  has_many :products, through: :purchase_order_items
-
-  validates :order_date, presence: true
-  validates :received_date, presence: true
-
-  enum status: { pending: 0, received: 1, cancelled: 2 }
+  has_many :purchase_order_items, dependent: :destroy
 
   validates :supplier, presence: true
+  validates :order_date, presence: true
 
-  has_many :purchase_order_items, dependent: :destroy
+  enum status: { pending: 0, received: 1, cancelled: 2 }
 
   accepts_nested_attributes_for :purchase_order_items, allow_destroy: true
 

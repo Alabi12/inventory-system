@@ -1,7 +1,7 @@
-<%= form_with(model: @purchase_order, local: true) do |f| %>
+<%= form_with(model: @purchase_order, local: true, class: "purchase-order-form") do |f| %>
   <% if @purchase_order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@purchase_order.errors.count, "error") %> prohibited this order from being saved:</h2>
+    <div id="error_explanation" class="alert alert-danger">
+      <h4 class="alert-heading"><%= pluralize(@purchase_order.errors.count, "error") %> prohibited this order from being saved:</h4>
       <ul>
         <% @purchase_order.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,45 +10,45 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= f.label :supplier_id %>
-    <%= f.collection_select :supplier_id, Supplier.all, :id, :name, include_blank: true %>
+  <div class="mb-3">
+    <%= f.label :supplier_id, class: "form-label" %>
+    <%= f.collection_select :supplier_id, Supplier.all, :id, :name, { include_blank: true }, class: "form-select" %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :order_date %>
-    <%= f.date_field :order_date %>
+  <div class="mb-3">
+    <%= f.label :order_date, class: "form-label" %>
+    <%= f.date_field :order_date, class: "form-control" %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :received_date %>
-    <%= f.date_field :received_date %>
+  <div class="mb-3">
+    <%= f.label :received_date, class: "form-label" %>
+    <%= f.date_field :received_date, class: "form-control" %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :status %>
-    <%= f.select :status, ["pending", "approved", "completed"], include_blank: true %>
+  <div class="mb-3">
+    <%= f.label :status, class: "form-label" %>
+    <%= f.select :status, ["pending", "approved", "completed"], { include_blank: true }, class: "form-select" %>
   </div>
 
-  <h3>Order Items</h3>
+  <h3 class="mt-4">Order Items</h3>
   <%= f.fields_for :purchase_order_items do |item_form| %>
-    <div class="nested-fields">
-      <div class="form-group">
-        <%= item_form.label :product_id, "Product" %>
-        <%= item_form.collection_select :product_id, Product.all, :id, :name, include_blank: true %>
+    <div class="nested-fields border rounded p-3 mb-3">
+      <div class="mb-3">
+        <%= item_form.label :product_id, "Product", class: "form-label" %>
+        <%= item_form.collection_select :product_id, Product.all, :id, :name, { include_blank: true }, class: "form-select" %>
       </div>
 
-      <div class="form-group">
-        <%= item_form.label :quantity %>
-        <%= item_form.number_field :quantity, min: 1 %>
+      <div class="mb-3">
+        <%= item_form.label :quantity, class: "form-label" %>
+        <%= item_form.number_field :quantity, min: 1, class: "form-control" %>
       </div>
 
-      <div class="form-group">
-        <%= item_form.label :price %>
-        <%= item_form.number_field :price, step: 0.01, min: 0 %>
+      <div class="mb-3">
+        <%= item_form.label :price, class: "form-label" %>
+        <%= item_form.number_field :price, step: 0.01, min: 0, class: "form-control" %>
       </div>
     </div>
   <% end %>
 
-  <%= f.submit "Save Purchase Order" %>
+  <%= f.submit "Save Purchase Order", class: "btn btn-primary" %>
 <% end %>

@@ -4,12 +4,22 @@ class ProductsController < ApplicationController
   # GET /products or /products.json
   def index
     @products = Product.all
-    @products = if params[:query].present?
-                  Product.search(params[:query])
-                else
-                  Product.all
-                end
+  
+    # Filter by product name
+    if params[:query].present?
+      @products = @products.where("name ILIKE ?", "%#{params[:query]}%")
+    end
+  
+    # Filter by selected category
+    if params[:category].present? && params[:category] != "All"
+      @products = @products.where(category: params[:category])
+    end
+  
+    @products = @products.distinct
+    @categories = Product.select(:category).distinct.pluck(:category).compact.sort
   end
+  
+
   # GET /products/1 or /products/1.json
   def show
     @products = Product.all
@@ -17,7 +27,7 @@ class ProductsController < ApplicationController
 
   # GET /products/new
   def new
-    @product = Product.new
+    @product = Product.new  # Ensure @product is initialized
   end
 
   # GET /products/1/edit

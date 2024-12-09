@@ -5,7 +5,6 @@ class Product < ApplicationRecord
   has_many :purchase_order_items
   has_many :sales_order_items
   has_one :inventory_item
-  # has_many :sales_order_items
   validates :product_code, presence: true, uniqueness: true
   has_many :purchase_orders, through: :purchase_order_items
   has_many :sales_orders, through: :sales_order_items
@@ -31,11 +30,10 @@ class Product < ApplicationRecord
       stock_level: stock_level,
     }
   end
-
-  private
-
+ 
   def check_stock_level
-    if stock_level <= reorder_point
+    if stock_level.present? && reorder_point.present? && stock_level <= reorder_point
+      # Notify reorder (this could be a method or another action)
       notify_reorder
     end
   end

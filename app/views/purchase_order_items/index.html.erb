@@ -1,14 +1,18 @@
-<p style="color: green"><%= notice %></p>
+<p class="text-success"><%= notice %></p>
 
-<h1>Purchase order items</h1>
+<h1 class="display-4 mb-4">Purchase Order Items</h1>
 
-<div id="purchase_order_items">
+<div id="purchase_order_items" class="mb-4">
   <% @purchase_order_items.each do |purchase_order_item| %>
-    <%= render purchase_order_item %>
-    <p>
-      <%= link_to "Show this purchase order item", purchase_order_item %>
-    </p>
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <%= render purchase_order_item %>
+        <p>
+          <%= link_to "Show this purchase order item", purchase_order_item, class: "btn btn-outline-primary btn-sm" %>
+        </p>
+      </div>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New purchase order item", new_purchase_order_item_path %>
+<%= link_to "New Purchase Order Item", new_purchase_order_item_path, class: "btn btn-primary" %>

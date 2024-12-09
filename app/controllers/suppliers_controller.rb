@@ -3,7 +3,18 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers or /suppliers.json
   def index
-    @suppliers = Supplier.all  # Fetch all suppliers (or adjust query as necessary)
+    @suppliers = Supplier.all
+
+    @purchase_orders = PurchaseOrder.includes(:supplier, :purchase_order_items).all
+
+    if params[:query].present?
+      @suppliers = Supplier.joins(:products).where(
+        "suppliers.name ILIKE :query OR products.name ILIKE :query",
+        query: "%#{params[:query]}%"
+      ).distinct
+    else
+      @suppliers = Supplier.all
+    end
   end
   
   def supplier_performance

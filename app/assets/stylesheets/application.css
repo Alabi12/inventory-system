@@ -22,12 +22,49 @@
   box-sizing: border-box;
 }
 
-/* Body and layout */
 body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  min-height: 100vh;
   margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.cover-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  color: white;
+  text-align: center;
+}
+
+.cover-page .content {
+  max-width: 500px;
+}
+
+.cover-page h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.cover-page p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.cover-page .buttons a {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background: #007bff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.cover-page .buttons a.btn-secondary {
+  background: #6c757d;
 }
 
 /* Sidebar Styles */
@@ -195,4 +232,63 @@ footer {
   100% {
     opacity: 0;
   }
+}
+
+
+/* form css */
+.table th, .table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.btn {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.form-control {
+  max-width: 300px;
+}
+
+/* Products css */
+.card {
+  border-radius: 8px;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.btn-primary {
+  background-color: #0069d9;
+  border-color: #0062cc;
+  &:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+}
+
+/* supplier performance css */
+.table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #f8f9fa;
+}
+
+form .btn {
+  margin-left: 10px;
+}
+
+form input[type="text"] {
+  width: 300px;
 }

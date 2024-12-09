@@ -5,26 +5,26 @@ class PurchaseOrdersController < ApplicationController
     @purchase_orders = PurchaseOrder.all
   end
 
-  def show
-  end
-
   def new
     @purchase_order = PurchaseOrder.new
-    @purchase_order.purchase_order_items.build
-  end
-
-  def edit
-    @purchase_order.purchase_order_items.build if @purchase_order.purchase_order_items.empty?
+    @purchase_order.purchase_order_items.build # Initializes one item
   end
 
   def create
     @purchase_order = PurchaseOrder.new(purchase_order_params)
-
-    if @purchase_order.save
-      redirect_to @purchase_order, notice: "Purchase order was successfully created."
+    if @purchase_order.purchase_order_items.any? && @purchase_order.save
+      redirect_to @purchase_order, notice: 'Purchase order was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      flash.now[:alert] = 'Please add at least one item to the order.' if @purchase_order.purchase_order_items.empty?
+      render :new
     end
+  end
+
+  def show
+  end
+
+  def edit
+    @purchase_order.purchase_order_items.build if @purchase_order.purchase_order_items.empty?
   end
 
   def update
@@ -54,5 +54,5 @@ class PurchaseOrdersController < ApplicationController
       :status,
       purchase_order_items_attributes: [:id, :product_id, :quantity, :price, :_destroy]
     )
-  end  
+  end
 end

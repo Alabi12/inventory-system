@@ -1,6 +1,6 @@
 <%= form_with(model: @product, local: true) do |form| %>
   <% if @product.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="alert alert-danger">
       <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
       <ul>
         <% @product.errors.full_messages.each do |message| %>
@@ -9,55 +9,36 @@
       </ul>
     </div>
   <% end %>
-  <div class="form-group">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: "form-control" %>
-  </div>
 
   <div class="form-group">
     <%= form.label :product_code %>
-    <%= form.text_field :product_code, class: "form-control" %>
+    <%= form.text_field :product_code, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
   </div>
 
   <div class="form-group">
     <%= form.label :category %>
-    <%= form.text_field :category, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= form.label :reorder_point %>
-    <%= form.number_field :price, step: 0.01, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :quantity %>
-    <%= form.number_field :quantity, class: "form-control" %>
+    <%= form.text_field :category, class: 'form-control' %>
   </div>
 
   <div class="form-group">
     <%= form.label :price %>
-    <%= form.number_field :price, step: 0.01, class: "form-control" %>
+    <%= form.number_field :price, class: 'form-control' %>
   </div>
 
   <div class="form-group">
-    <%= form.label :supplier_id, "Supplier" %>
-    <%= form.collection_select :supplier_id, Supplier.all, :id, :name, { prompt: "Select a supplier" }, class: "form-control" %>
-  </div>
-
-  
- <div class="form-group">
-    <%= form.label :stock_level, style: "display: block" %>
-    <%= form.number_field :stock_level, class: "form-control" %>
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity, class: 'form-control' %>
   </div>
 
   <div class="form-group">
-    <%= form.label :low_stock_threshold, style: "display: block" %>
-    <%= form.number_field :low_stock_threshold, class: "form-control" %>
+    <%= form.label :supplier_id %>
+    <%= form.collection_select :supplier_id, Supplier.all, :id, :name, prompt: 'Select Supplier', class: 'form-control' %>
   </div>
 
-  <div class="form-group">
-    <%= form.submit class: "btn btn-primary" %>
-  </div>
+  <%= form.submit "Save Product", class: "btn btn-primary" %>
 <% end %>
-
-
-

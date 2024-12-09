@@ -1,39 +1,36 @@
 <% @customers.each do |customer| %>
- <p>
-    <strong>Name:</strong>
-    <%= customer.name %>
-  </p>
- <p>
-    <strong>Email:</strong>
-    <%= customer.email %>
-  </p>
- <p>
-    <strong>Phone:</strong>
-    <%= customer.phone %>
-  </p>
- <p>
-    <strong>Address:</strong>
-    <%= customer.address %>
-  </p>
+  <div class="card mb-3">
+    <div class="card-header">
+      <h3><%= customer.name %></h3>
+    </div>
+    <div class="card-body">
+      <p><strong>Email:</strong> <%= customer.email %></p>
+      <p><strong>Phone:</strong> <%= customer.phone %></p>
+      <p><strong>Address:</strong> <%= customer.address %></p>
+    </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Order Date</th>
-        <th>Product</th>
-        <th>Quantity</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% customer.purchase_orders.each do |order| %>
-        <% order.purchase_order_items.each do |item| %>
+    <div class="card-footer">
+      <h5>Orders</h5>
+      <table class="table table-striped">
+        <thead>
           <tr>
-            <td><%= order.order_date %></td>
-            <td><%= item.product.name %></td> <!-- Access the product via the item -->
-            <td><%= item.quantity %></td>
+            <th>Order Date</th>
+            <th>Product</th>
+            <th>Quantity</th>
           </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+          <% customer.purchase_orders.each do |order| %>
+            <% order.purchase_order_items.each do |item| %>
+              <tr>
+                <td><%= order.order_date %></td>
+                <td><%= item.product.name %></td>
+                <td><%= item.quantity %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 <% end %>

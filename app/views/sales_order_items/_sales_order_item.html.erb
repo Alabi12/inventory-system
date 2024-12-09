@@ -1,21 +1,13 @@
-<div id="<%= dom_id sales_order_item %>">
-  <p>
-    <strong>Sales order:</strong>
-    <%= sales_order_item.sales_order_id %>
-  </p>
+<div id="<%= dom_id(sales_order_item) %>" class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Sales Order Item Details</h5>
 
-  <p>
-    <strong>Product:</strong>
-    <%= sales_order_item.product_id %>
-  </p>
+    <p><strong>Sales Order:</strong> <%= sales_order_item.sales_order_id %></p>
 
-  <p>
-    <strong>Quantity:</strong>
-    <%= sales_order_item.quantity %>
-  </p>
-  <p>
-    <strong>Total Price:</strong>
-    <%= sales_order_item.total_price %>
-  </p>
+    <p><strong>Product:</strong> <%= sales_order_item.product_id %></p>
 
+    <p><strong>Quantity:</strong> <%= sales_order_item.quantity %></p>
+
+    <p><strong>Total Price:</strong> <%= number_to_currency(sales_order_item.total_price) %></p>
+  </div>
 </div>

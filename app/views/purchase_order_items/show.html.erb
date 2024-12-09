@@ -1,10 +1,13 @@
-<p style="color: green"><%= notice %></p>
+<p class="text-success"><%= notice %></p>
 
-<%= render @purchase_order_item %>
+<div class="card mb-4 shadow-sm">
+  <div class="card-body">
+    <%= render @purchase_order_item %>
+  </div>
+</div>
 
-<div>
-  <%= link_to "Edit this purchase order item", edit_purchase_order_item_path(@purchase_order_item) %> |
-  <%= link_to "Back to purchase order items", purchase_order_items_path %>
-
-  <%= button_to "Destroy this purchase order item", @purchase_order_item, method: :delete %>
+<div class="d-flex justify-content-between">
+  <%= link_to "Edit this purchase order item", edit_purchase_order_item_path(@purchase_order_item), class: "btn btn-warning btn-sm" %>
+  <%= link_to "Back to purchase order items", purchase_order_items_path, class: "btn btn-secondary btn-sm" %>
+  <%= button_to "Destroy this purchase order item", @purchase_order_item, method: :delete, class: "btn btn-danger btn-sm" %>
 </div>

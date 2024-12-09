@@ -1,8 +1,35 @@
-<p style="color: green"><%= notice %></p>
+<%= form_with url: products_path, method: :get, local: true do |form| %> 
+  <div class="form-row d-flex">
+    <!-- Search Field -->
+    <div class="form-group col-md-6">
+      <%= form.label :query, "Search by Product Name" %>
+      <%= form.text_field :query, value: params[:query], class: "form-control", placeholder: "Enter product name" %>
+    </div>
 
-<h1>Products</h1>
-    <% @products.each do |product| %>
-      <%= render product %>
-    <% end %>
+    <!-- Category Dropdown -->
+    <div class="form-group col-md-6">
+      <%= form.label :category, "Filter by Category" %>
+      <%= form.select :category, options_for_select(["All"] + @categories, selected: params[:category]), class: "form-control" %>
+    </div>
+  </div>
 
-<%= link_to "New product", new_product_path, class: "btn btn-primary" %>
+  <%= form.submit "Search", class: "btn btn-primary"%>
+<% end %>
+
+  
+<div class="d-flex justify-content-around align-items-center mb-2">
+  <h3 class="display-5">Products</h3>
+  <%= link_to "New Product", new_product_path, class: "btn btn-primary" %>
+</div><hr>
+
+<div class="row g-4">
+  <% @products.each do |product| %>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <%= render product %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
