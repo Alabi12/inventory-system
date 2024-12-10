@@ -5,10 +5,11 @@ class Product < ApplicationRecord
   has_many :purchase_order_items
   has_many :sales_order_items
   has_one :inventory_item
-  validates :product_code, presence: true, uniqueness: true
   has_many :purchase_orders, through: :purchase_order_items
   has_many :sales_orders, through: :sales_order_items
-
+  has_and_belongs_to_many :suppliers
+  
+  validates :product_code, presence: true, uniqueness: true
   validates :name, :product_code, :category, :quantity, :price, presence: true
   validates :reorder_point, numericality: { greater_than_or_equal_to: 0 }
 

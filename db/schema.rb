@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_03_173610) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_09_122545) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
+  enable_extension "plpgsql"
 
   create_table "customers", force: :cascade do |t|
     t.string "name"
@@ -48,6 +48,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_173610) do
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 
+  create_table "products_suppliers", id: false, force: :cascade do |t|
+    t.bigint "supplier_id", null: false
+    t.bigint "product_id", null: false
+  end
+
   create_table "purchase_order_items", force: :cascade do |t|
     t.bigint "purchase_order_id", null: false
     t.bigint "product_id", null: false
@@ -61,7 +66,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_03_173610) do
 
   create_table "purchase_orders", force: :cascade do |t|
     t.bigint "supplier_id", null: false
-    t.integer "status", default: 0, null: false
+    t.integer "status"
     t.decimal "price", precision: 15, scale: 2
     t.date "order_date"
     t.date "received_date"

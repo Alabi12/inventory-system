@@ -37,33 +37,48 @@ class SuppliersController < ApplicationController
   def edit
   end
 
-  # POST /suppliers or /suppliers.json
-  def create
-    @supplier = Supplier.new(supplier_params)
+ # In the SuppliersController, update both the `create` and `update` actions:
 
-    respond_to do |format|
-      if @supplier.save
-        format.html { redirect_to @supplier, notice: "Supplier was successfully created." }
-        format.json { render :show, status: :created, location: @supplier }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @supplier.errors, status: :unprocessable_entity }
-      end
-    end
+ def create
+  @supplier = Supplier.new(supplier_params)
+
+  # Sanitize the product_ids to remove invalid ones
+  if params[:supplier][:product_ids].present?
+    # Remove any 0 or nil IDs
+    sanitized_product_ids = params[:supplier][:product_ids].reject { |id| id.to_i == 0 || id.nil? }
+    @supplier.product_ids = sanitized_product_ids
   end
 
-  # PATCH/PUT /suppliers/1 or /suppliers/1.json
-  def update
-    respond_to do |format|
-      if @supplier.update(supplier_params)
-        format.html { redirect_to @supplier, notice: "Supplier was successfully updated." }
-        format.json { render :show, status: :ok, location: @supplier }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @supplier.errors, status: :unprocessable_entity }
-      end
+  respond_to do |format|
+    if @supplier.save
+      format.html { redirect_to @supplier, notice: "Supplier was successfully created." }
+      format.json { render :show, status: :created, location: @supplier }
+    else
+      format.html { render :new }
+      format.json { render json: @supplier.errors, status: :unprocessable_entity }
     end
   end
+end
+
+def update
+  @supplier = Supplier.find(params[:id])
+
+  # Sanitize the product_ids to remove invalid ones (id = 0 or nil)
+  if params[:supplier][:product_ids].present?
+    sanitized_product_ids = params[:supplier][:product_ids].reject { |id| id.to_i == 0 || id.nil? }
+    @supplier.product_ids = sanitized_product_ids
+  end
+
+  respond_to do |format|
+    if @supplier.update(supplier_params)
+      format.html { redirect_to @supplier, notice: "Supplier was successfully updated." }
+      format.json { render :show, status: :ok, location: @supplier }
+    else
+      format.html { render :edit }
+      format.json { render json: @supplier.errors, status: :unprocessable_entity }
+    end
+  end
+end 
 
   # DELETE /suppliers/1 or /suppliers/1.json
   def destroy
@@ -83,6 +98,6 @@ class SuppliersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def supplier_params
-      params.require(:supplier).permit(:name, :email, :phone, :address)
+      params.require(:supplier).permit(:name, :email, :phone, :address, product_ids: [])
     end
 end
