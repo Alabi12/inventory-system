@@ -89,22 +89,32 @@
   <h1 class="dashboard-header">WoRank Inventory System</h1>
 
   <h2 class="section-title">Summary</h2>
-  <ul class="summary-list">
+  <ul class="summary-list d-flex justify-content-between">
     <li>Total Products: <%= @total_products %></li>
     <li>Total Suppliers: <%= @total_suppliers %></li>
     <li>Total Customers: <%= @total_customers %></li>
   </ul>
 
-  <h2 class="section-title">Low Stock Products</h2>
-  <% if @low_stock_products.any? %>
-    <ul class="low-stock-list">
-      <% @low_stock_products.each do |product| %>
-        <li><%= product.name %> (Quantity: <%= product.quantity %>)</li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p class="no-low-stock">All products are sufficiently stocked!</p>
-  <% end %>
+  <h2 class="section-title">Financial Summary</h2>
+  <ul class="summary-list d-flex justify-content-between">
+    <li>Total Purchases: <%= number_to_currency(@total_purchases) %></li>
+    <li>Total Sales: <%= number_to_currency(@total_sales) %></li>
+    <li>Profit: <%= number_to_currency(@profit) %></li>
+  </ul>
+
+
+  <h2 class="section-title">Low Stock Products (Quantity <= 40)</h2>
+<% if @low_stock_products.any? %>
+  <ul class="low-stock-list">
+    <% @low_stock_products.each do |product| %>
+      <li>
+        <%= product.name %> (Quantity: <%= product.inventory_item.quantity %>)
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="no-low-stock">All products are sufficiently stocked!</p>
+<% end %>
 
   <div class="links-container">
     <%= link_to 'Inventory Report', reports_inventory_path, class: 'dashboard-link' %>

@@ -1,33 +1,59 @@
 class ReportsController < ApplicationController
-  # before_action :authenticate_user! # Ensure only authenticated users can access
-  
+  def dashboard
+    # Query products with stock quantity <= 40
+    @low_stock_products = Product.joins(:inventory_item)
+                                  .where('inventory_items.quantity <= ?', 40)
+                                  .order('inventory_items.quantity ASC')
+
+    # Other data you may need on the dashboard
+    @total_products = Product.count
+    @total_suppliers = Supplier.count
+    @total_customers = Customer.count
+  end
+
   def inventory_trends
+    # Fetch inventory trends, grouping by the creation date and summing quantities
     @inventory_trends = StockMovement.group("DATE(created_at)").sum(:quantity)
   end
   
   def sales
-    @sales_orders = SalesOrder.includes(:customer, :product).all
+    # Sales by product
+    @sales_by_product = SalesOrderItem
+                          .joins(:product)
+                          .select('products.name, SUM(sales_order_items.quantity * sales_order_items.price) AS total_sales')
+                          .group('products.name')
+                          .order('total_sales DESC')
 
-    # Filtering logic
-    if params[:start_date].present? && params[:end_date].present?
-      @sales_orders = @sales_orders.where(order_date: params[:start_date]..params[:end_date])
-    end
+    # Sales by customer
+    @sales_by_customer = SalesOrder
+                          .joins(:sales_order_items)
+                          .select('sales_orders.customer_id, customers.name, SUM(sales_order_items.quantity * sales_order_items.price) AS total_sales')
+                          .joins(:customer)
+                          .group('sales_orders.customer_id, customers.name')
+                          .order('total_sales DESC')
 
-    if params[:category_id].present?
-      @sales_orders = @sales_orders.joins(:product).where(products: { category_id: params[:category_id] })
-    end
+    # Initialize sales by date if not already set
+    @sales_by_date = SalesOrder
+                      .joins(:sales_order_items)
+                      .select('DATE(sales_orders.order_date) AS date, SUM(sales_order_items.quantity * sales_order_items.price) AS total_sales')
+                      .group('date')
+                      .order('date ASC')
 
-    if params[:customer_id].present?
-      @sales_orders = @sales_orders.where(customer_id: params[:customer_id])
-    end
+    # Ensure @sales_by_date is an empty array if no data is found
+    @sales_by_date = @sales_by_date.presence || []
+
+    # Other sales-related variables
+    @total_sales = SalesOrderItem.sum('quantity * price')
+    @profit = @total_sales - PurchaseOrderItem.sum('quantity * price')
   end
 
   def inventory
+    # Get all products, including supplier information, ordered by name
     @products = Product.includes(:supplier).order(:name)
   end
 
   def reorder_points
-    # Fetch all products that need reordering
+    # Fetch products that need reordering
     @products_needing_reorder = Product.includes(:inventory_item).select { |product| product.needs_reorder? }
   end
 
@@ -36,14 +62,17 @@ class ReportsController < ApplicationController
     @search_query = params[:search]
     products = Product.includes(:stock_movements)
 
+    # If search query is present, filter by product name (case-insensitive)
     products = products.where('name ILIKE ?', "%#{@search_query}%") if @search_query.present?
 
-    # Prepare the report data
+    # Prepare stock movement report data for each product
     @products = products.map do |product|
+      # Summing received and sold quantities for stock movements
       received_quantity = product.stock_movements.received.sum(:quantity)
       sold_quantity = product.stock_movements.sold.sum(:quantity)
       current_inventory = received_quantity - sold_quantity
 
+      # Returning relevant data for the report
       {
         name: product.name,
         received_quantity: received_quantity,
@@ -53,15 +82,9 @@ class ReportsController < ApplicationController
     end
   end
 
-  def sales
-    @sales_orders = SalesOrder.joins(:sales_order_items)
-                              .select('sales_orders.id, sales_orders.order_date, SUM(sales_order_items.quantity * sales_order_items.price) AS total_price')
-                              .group('sales_orders.id')
-                              .order('sales_orders.order_date ASC')
-  end  
-
   private
 
+  # Helper method to filter the date range for reports
   def filter_date_range
     if params[:start_date].present? && params[:end_date].present?
       params[:start_date]..params[:end_date]
