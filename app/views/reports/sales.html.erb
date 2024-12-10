@@ -1,76 +1,89 @@
-<h2 class="section-title">Sales Reports</h2>
+<h2 class="section-title" style="font-size: 24px; color: #007bff; margin-bottom: 20px; border-bottom: 2px solid #007bff; padding-bottom: 5px;">
+  Sales Reports
+</h2>
 
 <!-- Total Sales -->
-<p><strong>Total Sales:</strong> <%= number_to_currency(@total_sales) %></p>
+<p style="font-size: 16px; margin: 10px 0; color: #007bff">
+  <strong>Total Sales:</strong> <%= number_to_currency(@total_sales) %>
+</p>
+<!-- Profit -->
+<p style="font-size: 16px; margin: 10px 0; color: #007bff">
+  <strong>Total Profit:</strong> <%= number_to_currency(@profit) %>
+</p>
 
 <!-- Sales by Product -->
-<h3 class="section-title">Sales by Product</h3>
+<h3 class="section-title" style="font-size: 20px; color: #333; margin-top: 30px;">
+  Sales by Product
+</h3>
 <% if @sales_by_product.any? %>
-  <table>
-    <thead>
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+    <thead style="background-color: #007bff; color: #007bff;">
       <tr>
-        <th>Product</th>
-        <th>Total Sales</th>
+        <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Product</th>
+        <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Total Sales</th>
       </tr>
     </thead>
     <tbody>
       <% @sales_by_product.each do |record| %>
-        <tr>
-          <td><%= record.name %></td>
-          <td><%= number_to_currency(record.total_sales) %></td>
+        <tr style="background-color: <%= cycle('#fff', '#f9f9f9') %>;">
+          <td style="padding: 12px; border: 1px solid #ddd;"><%= record.name %></td>
+          <td style="padding: 12px; border: 1px solid #ddd;"><%= number_to_currency(record.total_sales) %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 <% else %>
-  <p>No sales data available for products.</p>
+  <p style="color: #dc3545; font-weight: bold; text-align: center;">No sales data available for products.</p>
 <% end %>
 
 <!-- Sales by Customer -->
-<h3 class="section-title">Sales by Customer</h3>
+<h3 class="section-title" style="font-size: 20px; color: #333; margin-top: 30px;">
+  Sales by Customer
+</h3>
 <% if @sales_by_customer.any? %>
-  <table>
-    <thead>
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+    <thead style="background-color: #007bff; color: #007bff;">
       <tr>
-        <th>Customer</th>
-        <th>Total Sales</th>
+        <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Customer</th>
+        <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Total Sales</th>
       </tr>
     </thead>
     <tbody>
       <% @sales_by_customer.each do |record| %>
-        <tr>
-          <td><%= record.name %></td>
-          <td><%= number_to_currency(record.total_sales) %></td>
+        <tr style="background-color: <%= cycle('#fff', '#f9f9f9') %>;">
+          <td style="padding: 12px; border: 1px solid #ddd;"><%= record.name %></td>
+          <td style="padding: 12px; border: 1px solid #ddd;"><%= number_to_currency(record.total_sales) %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 <% else %>
-  <p>No sales data available for customers.</p>
+  <p style="color: #dc3545; font-weight: bold; text-align: center;">No sales data available for customers.</p>
 <% end %>
 
 <!-- Sales by Date -->
-<h3 class="section-title">Sales by Date</h3>
+<h3 class="section-title" style="font-size: 20px; color: #333; margin-top: 30px;">
+  Sales by Date
+</h3>
 <% if @sales_by_date.any? %>
-  <table>
-    <thead>
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+    <thead style="background-color: #007bff; color: #007bff;">
       <tr>
-        <th>Date</th>
-        <th>Total Sales</th>
+        <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Date</th>
+        <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Total Sales</th>
       </tr>
     </thead>
     <tbody>
       <% @sales_by_date.each do |record| %>
-        <tr>
-          <td><%= record.date %></td>
-          <td><%= number_to_currency(record.total_sales) %></td>
+        <tr style="background-color: <%= cycle('#fff', '#f9f9f9') %>;">
+          <td style="padding: 12px; border: 1px solid #ddd;"><%= record.date %></td>
+          <td style="padding: 12px; border: 1px solid #ddd;"><%= number_to_currency(record.total_sales) %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 <% else %>
-  <p>No sales data available for the selected date range.</p>
+  <p style="color: #dc3545; font-weight: bold; text-align: center;">No sales data available for the selected date range.</p>
 <% end %>
 
-<!-- Profit -->
-<p><strong>Total Profit:</strong> <%= number_to_currency(@profit) %></p>
+

@@ -22,10 +22,10 @@
 
 <!-- Links -->
 <div>
-  <%= link_to "Edit this purchase order", edit_purchase_order_path(@purchase_order) %> |
-  <%= link_to "Back to purchase orders", purchase_orders_path %>
+  <%= link_to "Edit", edit_purchase_order_path(@purchase_order) %> |
+  <%= link_to "Back", purchase_orders_path %>
 
-  <%= button_to "Destroy this purchase order", @purchase_order, method: :delete, data: { confirm: "Are you sure?" } %>
+  <%= button_to "Delete", @purchase_order, method: :delete, data: { confirm: "Are you sure?" } %>
 </div>
 
 <script>
