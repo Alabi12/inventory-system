@@ -1,36 +1,93 @@
-<% @customers.each do |customer| %>
-  <div class="card mb-3">
-    <div class="card-header">
-      <h3><%= customer.name %></h3>
-    </div>
-    <div class="card-body">
-      <p><strong>Email:</strong> <%= customer.email %></p>
-      <p><strong>Phone:</strong> <%= customer.phone %></p>
-      <p><strong>Address:</strong> <%= customer.address %></p>
-    </div>
+<div class="customer-card">
+  <p><strong>Name:</strong> <%= customer.name %></p>
+  <p><strong>Email:</strong> <%= customer.email %></p>
+  <p><strong>Phone:</strong> <%= customer.phone %></p>
+  <p><strong>Address:</strong> <%= customer.address %></p>
 
-    <div class="card-footer">
-      <h5>Orders</h5>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Order Date</th>
-            <th>Product</th>
-            <th>Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% customer.purchase_orders.each do |order| %>
-            <% order.purchase_order_items.each do |item| %>
-              <tr>
-                <td><%= order.order_date %></td>
-                <td><%= item.product.name %></td>
-                <td><%= item.quantity %></td>
-              </tr>
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+  <div class="actions">
+    <%= link_to "Edit", edit_customer_path(customer), class: "btn btn-warning custom-btn" %>
+    <%= button_to "Delete", customer, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger custom-btn" %>
   </div>
-<% end %>
+</div>
+
+<style>
+  /* Main container for the customer card */
+  .customer-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;  /* Light gray border */
+    border-radius: 8px;  /* Rounded corners for a soft appearance */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Subtle shadow effect */
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;  /* Smooth transition for hover effects */
+  }
+
+  .customer-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);  /* Darker shadow on hover for emphasis */
+    transform: translateY(-5px);  /* Slight lift effect */
+  }
+
+  /* Typography for customer details */
+  .customer-card p {
+    font-size: 14px;
+    color: #333;
+    margin: 8px 0;
+  }
+
+  .customer-card strong {
+    font-weight: bold;
+    color: #555;
+  }
+
+  /* Action button container */
+  .actions {
+    display: flex;
+    gap: 12px;  /* Space between buttons */
+    justify-content: flex-start;  /* Align buttons to the left */
+    margin-top: 15px;
+  }
+
+  /* General button styling */
+  .custom-btn {
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Edit button (Warning) */
+  .custom-btn.btn-warning {
+    background-color: #f0ad4e;
+    color: white;
+  }
+
+  .custom-btn.btn-warning:hover {
+    background-color: #ec971f;
+    transform: scale(1.05);  /* Slight scaling effect on hover */
+  }
+
+  /* Delete button (Danger) */
+  .custom-btn-danger {
+    background-color: #d9534f;
+    color: white;
+  }
+
+  .custom-btn-danger:hover {
+    background-color: #c9302c;
+    transform: scale(1.05);  /* Slight scaling effect on hover */
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .customer-card {
+      padding: 15px;
+    }
+
+    .actions {
+      flex-direction: column;  /* Stack buttons vertically on smaller screens */
+      gap: 10px;
+    }
+  }
+</style>

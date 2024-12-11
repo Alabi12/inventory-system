@@ -1,42 +1,15 @@
-<!-- app/views/inventory_items/new.html.erb -->
+<h1>Enter Opening Inventory</h1>
 
-<h1>Create a New Inventory Item</h1>
-
-<%= form_with(model: @inventory_item, local: true) do |form| %>
-  <% if @inventory_item.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@inventory_item.errors.count, "error") %> prohibited this inventory item from being saved:</h2>
-      <ul>
-        <% @inventory_item.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+<%= form_with model: @inventory_item, local: true do |form| %>
+  <div class="form-group">
+    <%= form.label :product_id, "Product" %>
+    <%= form.collection_select :product_id, Product.all, :id, :name, prompt: "Select a Product" %>
   </div>
 
-  <div class="field">
-    <%= form.label :quantity %>
-    <%= form.number_field :quantity %>
+  <div class="form-group">
+    <%= form.label :opening_inventory, "Opening Inventory" %>
+    <%= form.number_field :opening_inventory, class: "form-control", required: true %>
   </div>
 
-  <div class="field">
-    <%= form.label :product_id %>
-    <%= form.collection_select :product_id, Product.all, :id, :name, prompt: "Select a product" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :supplier_id %>
-    <%= form.collection_select :supplier_id, Supplier.all, :id, :name, prompt: "Select a supplier" %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit "Create Inventory Item" %>
-  </div>
+  <%= form.submit "Save", class: "btn btn-primary" %>
 <% end %>
-
-<%= link_to 'Back', inventory_items_path %>

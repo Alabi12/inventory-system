@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_09_122545) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_10_154058) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_09_122545) do
     t.integer "supplier_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "opening_inventory"
+    t.integer "closing_inventory"
   end
 
   create_table "products", force: :cascade do |t|
@@ -46,11 +48,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_09_122545) do
     t.string "category"
     t.integer "reorder_point", default: 0
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
-  end
-
-  create_table "products_suppliers", id: false, force: :cascade do |t|
-    t.bigint "supplier_id", null: false
-    t.bigint "product_id", null: false
   end
 
   create_table "purchase_order_items", force: :cascade do |t|

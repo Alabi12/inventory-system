@@ -105,19 +105,26 @@
 
   <h2 class="section-title">Low Stock Products (Quantity <= 40)</h2>
 <% if @low_stock_products.any? %>
-  <ul class="low-stock-list">
-    <% @low_stock_products.each do |product| %>
-      <li>
-        <%= product.name %> (Quantity: <%= product.inventory_item.quantity %>)
-      </li>
-    <% end %>
-  </ul>
+  <ul>
+  <% @low_stock_products.each do |product| %>
+    <li>
+      <%= product.name %> 
+      <% if product.inventory_item.present? %> 
+        (Quantity: <%= product.inventory_item.quantity %>)
+      <% else %>
+        (Quantity: Not available)
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
 <% else %>
   <p class="no-low-stock">All products are sufficiently stocked!</p>
 <% end %>
 
   <div class="links-container">
     <%= link_to 'Inventory Report', reports_inventory_path, class: 'dashboard-link' %>
+    <%= link_to 'Inventory Analysis', analysis_inventory_path, class: 'dashboard-link' %>
     <%= link_to 'Reorder Points', reports_reorder_points_path, class: 'dashboard-link' %>
     <%= link_to 'Stock Movements', reports_stock_movements_path, class: 'dashboard-link' %>
     <%= link_to 'Sales Reports', reports_sales_path, class: 'dashboard-link' %>

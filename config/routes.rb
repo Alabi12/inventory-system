@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'reports/reorder_points'
   get 'reports/stock_movements'
   get 'reports/sales'
+  get 'reports/inventory_analysis', to: 'reports#inventory_analysis', as: 'analysis_inventory'
 
   resources :stock_movements
 
@@ -23,6 +24,12 @@ Rails.application.routes.draw do
     resources :sales_order_items, only: [:index, :show]
   end
   
+  resources :inventory_items, only: [:new, :create] do
+    member do
+      patch :update_closing_inventory
+    end
+  end
+  
   # Other routes...
   root 'dashboard#index'  # Set the dashboard as the root page
   get 'dashboard', to: 'dashboard#index'
@@ -33,7 +40,6 @@ Rails.application.routes.draw do
   resources :products
   resources :suppliers
   resources :customers
-  resources :inventory_items
   resources :sales_orders
   resources :sales_order_items
 end

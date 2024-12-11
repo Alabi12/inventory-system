@@ -5,6 +5,7 @@
 <div id="customers">
   <% if @customers.present? %>
     <% @customers.each do |customer| %>
+      <!-- Render the customer partial for each customer -->
       <%= render partial: "customer", locals: { customer: customer } %>
     <% end %>
   <% else %>
@@ -12,4 +13,4 @@
   <% end %>
 </div>
 
-<%= link_to "New", new_customer_path, class: "btn btn-primary" %>
+<%= link_to "New Customer", new_customer_path, class: "btn btn-primary" %>

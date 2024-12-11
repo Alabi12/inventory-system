@@ -1,95 +1,139 @@
 class ReportsController < ApplicationController
+  before_action :set_date_range, only: %i[inventory_analysis]
+
+  # Dashboard for key metrics
   def dashboard
-    # Query products with stock quantity <= 40
     @low_stock_products = Product.joins(:inventory_item)
                                   .where('inventory_items.quantity <= ?', 40)
                                   .order('inventory_items.quantity ASC')
 
-    # Other data you may need on the dashboard
     @total_products = Product.count
     @total_suppliers = Supplier.count
     @total_customers = Customer.count
   end
 
+  # Inventory trends over time
   def inventory_trends
-    # Fetch inventory trends, grouping by the creation date and summing quantities
     @inventory_trends = StockMovement.group("DATE(created_at)").sum(:quantity)
   end
-  
+
+  # Sales reports
   def sales
-    # Sales by product
-    @sales_by_product = SalesOrderItem
-                          .joins(:product)
-                          .select('products.name, SUM(sales_order_items.quantity * sales_order_items.price) AS total_sales')
-                          .group('products.name')
-                          .order('total_sales DESC')
+    @sales_by_product = fetch_sales_by_product
+    @sales_by_customer = fetch_sales_by_customer
+    @sales_by_date = fetch_sales_by_date.presence || []
 
-    # Sales by customer
-    @sales_by_customer = SalesOrder
-                          .joins(:sales_order_items)
-                          .select('sales_orders.customer_id, customers.name, SUM(sales_order_items.quantity * sales_order_items.price) AS total_sales')
-                          .joins(:customer)
-                          .group('sales_orders.customer_id, customers.name')
-                          .order('total_sales DESC')
-
-    # Initialize sales by date if not already set
-    @sales_by_date = SalesOrder
-                      .joins(:sales_order_items)
-                      .select('DATE(sales_orders.order_date) AS date, SUM(sales_order_items.quantity * sales_order_items.price) AS total_sales')
-                      .group('date')
-                      .order('date ASC')
-
-    # Ensure @sales_by_date is an empty array if no data is found
-    @sales_by_date = @sales_by_date.presence || []
-
-    # Other sales-related variables
     @total_sales = SalesOrderItem.sum('quantity * price')
-    @profit = @total_sales - PurchaseOrderItem.sum('quantity * price')
+    @profit = calculate_profit
   end
 
+  # Inventory report
   def inventory
-    # Get all products, including supplier information, ordered by name
     @products = Product.includes(:supplier).order(:name)
   end
 
+  # Products needing reorder
   def reorder_points
-    # Fetch products that need reordering
-    @products_needing_reorder = Product.includes(:inventory_item).select { |product| product.needs_reorder? }
+    @products_needing_reorder = Product.includes(:inventory_item)
+                                       .select { |product| product.needs_reorder? }
   end
 
+  # Stock movement report
   def stock_movements
-    # Optional: Handle search by product name
     @search_query = params[:search]
     products = Product.includes(:stock_movements)
-
-    # If search query is present, filter by product name (case-insensitive)
     products = products.where('name ILIKE ?', "%#{@search_query}%") if @search_query.present?
 
-    # Prepare stock movement report data for each product
-    @products = products.map do |product|
-      # Summing received and sold quantities for stock movements
-      received_quantity = product.stock_movements.received.sum(:quantity)
-      sold_quantity = product.stock_movements.sold.sum(:quantity)
-      current_inventory = received_quantity - sold_quantity
+    @products = products.map { |product| stock_movement_summary(product) }
+  end
 
-      # Returning relevant data for the report
+  # Inventory analysis using FIFO
+  def inventory_analysis
+    @inventory_analysis = Product.includes(:stock_movements).map do |product|
+      opening_stock = calculate_opening_stock(product, @start_date)
+      incoming_stock = calculate_incoming_stock(product, @start_date, @end_date)
+      outgoing_stock = calculate_outgoing_stock(product, @start_date, @end_date)
+      closing_stock = opening_stock + incoming_stock - outgoing_stock
+  
+      # Record the opening inventory in the database (if needed)
+      product.update(opening_stock: opening_stock) if product.respond_to?(:opening_stock)
+  
       {
-        name: product.name,
-        received_quantity: received_quantity,
-        sold_quantity: sold_quantity,
-        current_inventory: current_inventory
+        product_name: product.name,
+        opening_stock: opening_stock,
+        incoming_stock: incoming_stock,
+        outgoing_stock: outgoing_stock,
+        closing_stock: closing_stock
       }
     end
-  end
+  end  
 
   private
 
-  # Helper method to filter the date range for reports
-  def filter_date_range
-    if params[:start_date].present? && params[:end_date].present?
-      params[:start_date]..params[:end_date]
-    else
-      Time.current.beginning_of_month..Time.current.end_of_month
-    end
+  # Helper to set the date range
+  def set_date_range
+    @start_date = params[:start_date].present? ? params[:start_date].to_date.beginning_of_day : Time.current.beginning_of_month
+    @end_date = params[:end_date].present? ? params[:end_date].to_date.end_of_day : Time.current.end_of_month
+  end
+
+  # Fetch sales by product
+  def fetch_sales_by_product
+    SalesOrderItem
+      .joins(:product)
+      .select('products.name, SUM(sales_order_items.quantity * sales_order_items.price) AS total_sales')
+      .group('products.name')
+      .order('total_sales DESC')
+  end
+
+  # Fetch sales by customer
+  def fetch_sales_by_customer
+    SalesOrder
+      .joins(:customer, :sales_order_items)
+      .select('customers.name, SUM(sales_order_items.quantity * sales_order_items.price) AS total_sales')
+      .group('customers.name')
+      .order('total_sales DESC')
+  end
+
+  # Fetch sales by date
+  def fetch_sales_by_date
+    SalesOrder
+      .joins(:sales_order_items)
+      .select('DATE(sales_orders.order_date) AS date, SUM(sales_order_items.quantity * sales_order_items.price) AS total_sales')
+      .group('date')
+      .order('date ASC')
+  end
+
+  # Calculate profit
+  def calculate_profit
+    @total_sales - PurchaseOrderItem.sum('quantity * price')
+  end
+
+  # Summarize stock movement
+  def stock_movement_summary(product)
+    received_quantity = product.stock_movements.received.sum(:quantity)
+    sold_quantity = product.stock_movements.sold.sum(:quantity)
+    current_inventory = received_quantity - sold_quantity
+
+    {
+      name: product.name,
+      received_quantity: received_quantity,
+      sold_quantity: sold_quantity,
+      current_inventory: current_inventory
+    }
+  end
+
+  # Calculate opening stock
+  def calculate_opening_stock(product, start_date)
+    product.stock_movements.where("created_at < ?", start_date).sum(:quantity)
+  end
+
+  # Calculate incoming stock
+  def calculate_incoming_stock(product, start_date, end_date)
+    product.stock_movements.received.where(created_at: start_date..end_date).sum(:quantity)
+  end
+
+  # Calculate outgoing stock
+  def calculate_outgoing_stock(product, start_date, end_date)
+    product.stock_movements.sold.where(created_at: start_date..end_date).sum(:quantity)
   end
 end

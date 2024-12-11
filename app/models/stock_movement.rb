@@ -12,4 +12,5 @@ class StockMovement < ApplicationRecord
 
     # Define the sold scope
     scope :sold, -> { where(movement_type: 'sold') }
+
 end
