@@ -1,13 +1,22 @@
 <h1>Sales Order</h1>
-<p>
-  <strong>Customer:</strong> <%= @sales_order.customer.name %><br>
-  <strong>Status:</strong> <%= @sales_order.status %><br>
-  <strong>Order Date:</strong> <%= @sales_order.order_date %><br>
-  <strong>Total Amount:</strong> <%= number_to_currency(@sales_order.total_amount) %>
-</p>
+<div class="card-body">
+  <p>
+    <strong>Customer:</strong> <%= @sales_order.customer.name %>
+  </p>
+  <p>
+    <strong>Status:</strong> <%= @sales_order.status %>
+  </p>
+  <p>
+    <strong>Order Date:</strong> <%= @sales_order.created_at.strftime("%B %d, %Y") %>
+  </p>
+    <p>
+    <strong>Total Amount:</strong> <%= number_to_currency(@sales_order.total_amount) %>
+  </p>
+</div>
+
 
 <h3>Order Items</h3>
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Product</th>
@@ -17,7 +26,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @sales_order_items.each do |sales_order_item| %>
+    <% @sales_order.sales_order_items.each do |sales_order_item| %>
       <tr>
         <td><%= sales_order_item.product.name %></td>
         <td><%= sales_order_item.quantity %></td>
@@ -27,3 +36,10 @@
     <% end %>
   </tbody>
 </table>
+
+<h3>Sales Trends</h3>
+<div>
+  <%= line_chart @sales_data, height: "300px" %>
+</div>
+
+<%= link_to "Back", sales_orders_path, class: "btn btn-secondary mt-3" %>

@@ -1,10 +1,11 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Customers</h1>
-<!-- app/views/customers/index.html.erb -->
+
 <div id="customers">
   <% if @customers.present? %>
     <% @customers.each do |customer| %>
+      <!-- Render the customer partial for each customer -->
       <%= render partial: "customer", locals: { customer: customer } %>
     <% end %>
   <% else %>
@@ -12,5 +13,4 @@
   <% end %>
 </div>
 
-
-<%= link_to "New customer", new_customer_path %>
+<%= link_to "New Customer", new_customer_path, class: "btn btn-primary" %>

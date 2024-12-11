@@ -1,45 +1,71 @@
 <%= form_with(model: @sales_order, local: false, html: { id: 'sales_order_form' }) do |form| %>
   <div class="form-group">
     <%= form.label :customer_id, "Select Customer" %>
-    <%= form.collection_select :customer_id, Customer.all, :id, :name, { prompt: "Select a Customer" } %>
+    <%= form.collection_select :customer_id, Customer.all, :id, :name, { prompt: "Select a Customer" }, class: "form-control" %>
   </div>
 
   <div class="form-group">
     <%= form.label :status, "Status" %>
-    <%= form.select :status, options_for_select(["pending", "received", "cancelled"], @sales_order.status) %>
+    <%= form.select :status, options_for_select(["pending", "received", "cancelled"], @sales_order.status), {}, class: "form-control" %>
   </div>
 
   <div class="form-group">
     <%= form.label :order_date, "Order Date" %>
-    <%= form.date_field :order_date, value: Date.today %>
+    <%= form.date_field :order_date, value: Date.today, class: "form-control" %>
   </div>
 
   <div class="form-group">
     <%= form.label :received_date, "Received Date" %>
-    <%= form.date_field :received_date %>
+    <%= form.date_field :received_date, class: "form-control" %>
   </div>
 
   <h3>Sales Order Items</h3>
-  <%= form.fields_for :sales_order_items do |item_form| %>
-    <div class="form-group">
-      <%= item_form.label :product_id, "Select Product" %>
-      <%= item_form.collection_select :product_id, Product.all, :id, :name, { prompt: "Select a Product" } %>
-    </div>
+  <div id="items-container">
+    <%= form.fields_for :sales_order_items do |item_form| %>
+      <div class="nested-fields">
+        <div class="form-group">
+          <%= item_form.label :product_id, "Select Product" %>
+          <%= item_form.collection_select :product_id, Product.all, :id, :name, { prompt: "Select a Product" }, class: "form-control" %>
+        </div>
 
-    <div class="form-group">
-      <%= item_form.label :quantity, "Quantity" %>
-      <%= item_form.number_field :quantity, min: 1 %>
-    </div>
+        <div class="form-group">
+          <%= item_form.label :quantity, "Quantity" %>
+          <%= item_form.number_field :quantity, min: 1, class: "form-control" %>
+        </div>
 
-    <div class="form-group">
-      <%= item_form.label :price, "Price" %>
-      <%= item_form.number_field :price, step: 0.01, min: 0 %>
-    </div>
+        <div class="form-group">
+          <%= item_form.label :price, "Price" %>
+          <%= item_form.number_field :price, step: 0.01, min: 0, class: "form-control" %>
+        </div>
 
-    <button type="button" class="remove-item btn btn-danger">Remove Item</button>
-  <% end %>
+        <button type="button" class="remove-item btn btn-danger">Remove Item</button>
+      </div>
+    <% end %>
+  </div>
 
-  <div class="form-group">
+  <button type="button" id="add-item" class="btn btn-success mt-2">Add Item</button>
+
+  <div class="form-group mt-4">
     <%= form.submit "Save Order", class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const itemsContainer = document.getElementById('items-container');
+    const addItemButton = document.getElementById('add-item');
+
+    addItemButton.addEventListener('click', () => {
+      const newItem = document.querySelector('.nested-fields').cloneNode(true);
+      newItem.querySelectorAll('input').forEach(input => input.value = '');
+      newItem.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+      itemsContainer.appendChild(newItem);
+    });
+
+    itemsContainer.addEventListener('click', function(event) {
+      if (event.target.classList.contains('remove-item')) {
+        event.target.closest('.nested-fields').remove();
+      }
+    });
+  });
+</script>

@@ -1,46 +1,34 @@
-<div id="<%= dom_id supplier %>">
-  <p>
-    <strong>Name:</strong>
-    <%= supplier.name %>
-  </p>
+<div class="me-2">
+  <div id="<%= dom_id supplier %>" class="mb-4">
+    <h2>Supplier Details</h2>
+    <p><strong>Name:</strong> <%= supplier.name %></p>
+    <p><strong>Email:</strong> <%= supplier.email %></p>
+    <p><strong>Phone:</strong> <%= supplier.phone %></p>
+    <p><strong>Address:</strong> <%= supplier.address %></p>
+  </div>
 
-  <p>
-    <strong>Email:</strong>
-    <%= supplier.email %>
-  </p>
+  <h1>Supplier Performance</h1>
 
-  <p>
-    <strong>Phone:</strong>
-    <%= supplier.phone %>
-  </p>
-
-  <p>
-    <strong>Address:</strong>
-    <%= supplier.address %>
-  </p>
-
+  <% if @supplier_performance.present? %>
+    <table class="table table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>Supplier</th>
+          <th>Average Purchase Delivery Time (Days)</th>
+          <th>Average Sales Delivery Time (Days)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= @supplier_performance.name %></td>
+          <td><%= @supplier_performance.avg_purchase_delivery_time.to_f.round(2) %></td>
+          <td><%= @supplier_performance.avg_sales_delivery_time.to_f.round(2) %></td>
+        </tr>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="alert alert-warning" role="alert">
+      No performance data available for this supplier.
+    </div>
+  <% end %>
 </div>
-
-<h1>Supplier Performance</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Supplier</th>
-      <th>Average Delivery Time (Days)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if @supplier_performance.present? %>
-  <tbody>
-    <tr>
-      <td><%= @supplier_performance.name %></td>
-      <td><%= @supplier_performance.avg_purchase_delivery_time.to_f.round(2) %></td>
-      <td><%= @supplier_performance.avg_sales_delivery_time.to_f.round(2) %></td>
-    </tr>
-  </tbody>
-<% else %>
-  <p>No performance data available for this supplier.</p>
-<% end %>
-  </tbody>
-</table>

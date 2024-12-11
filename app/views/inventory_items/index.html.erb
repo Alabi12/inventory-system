@@ -1,11 +1,10 @@
-<!-- app/views/inventory_items/index.html.erb -->
-
 <h1>Inventory Items</h1>
 
 <table>
   <thead>
     <tr>
       <th>Name</th>
+      <th>Opening Inventory</th>
       <th>Quantity</th>
       <th>Actions</th>
     </tr>
@@ -13,7 +12,8 @@
   <tbody>
     <% @inventory_items.each do |item| %>
       <tr>
-        <td><%= item.name %></td>
+        <td><%= item.product.name %></td>
+        <td><%= item.opening_inventory %></td>
         <td><%= item.quantity %></td>
         <td>
           <%= link_to 'Show', inventory_item_path(item), class: "link-btn" %> |

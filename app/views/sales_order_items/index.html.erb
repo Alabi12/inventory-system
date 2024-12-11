@@ -1,14 +1,20 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Sales order items</h1>
+<h1 class="page-title">Sales Order Items</h1>
 
 <div id="sales_order_items">
   <% @sales_order_items.each do |sales_order_item| %>
-    <%= render sales_order_item %>
-    <p>
-      <%= link_to "Show this sales order item", sales_order_item %>
-    </p>
+    <div class="card mb-3">
+      <div class="card-body">
+        <%= render sales_order_item %>
+        <div class="d-flex justify-content-between">
+          <%= link_to "Show", sales_order_item, class: "btn btn-info btn-sm" %>
+          <%= link_to "Edit", edit_sales_order_item_path(sales_order_item), class: "btn btn-warning btn-sm" %>
+          <%= button_to "Delete", sales_order_item, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+        </div>
+      </div>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New sales order item", new_sales_order_item_path %>
+<%= link_to "New Sales Order Item", new_sales_order_item_path, class: "btn btn-primary mt-3" %>

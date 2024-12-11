@@ -1,13 +1,31 @@
 <h2>Products Needing Reorder</h2>
 
 <% if @products_needing_reorder.present? %>
-  <% @products_needing_reorder.each do |product| %>
-    <div class="alert alert-warning">
-      <h4><%= product.name %></h4>
-      <p>Current Inventory: <%= product.inventory_item.quantity %></p>
-      <p>Reorder Point: <%= product.reorder_point %></p>
-    </div>
-  <% end %>
+  <div class="reorder-list">
+    <% @products_needing_reorder.each do |product| %>
+      <div class="alert alert-warning d-flex align-items-center">
+        <div>
+          <h4 class="mb-1"><%= product.name %></h4>
+          <p class="mb-0"><strong>Current Inventory:</strong> <%= product.inventory_item.quantity %></p>
+          <p class="mb-0"><strong>Reorder Point:</strong> <%= product.reorder_point %></p>
+        </div>
+        <div class="ms-auto">
+          <%= link_to "Reorder Now", new_purchase_order_path(product_id: product.id), class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 <% else %>
-  <p>No products need reordering at the moment.</p>
+  <div class="alert alert-success">
+    <p>No products need reordering at the moment.</p>
+  </div>
 <% end %>
+
+<style>
+  .reorder-list .alert {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+  }
+</style>

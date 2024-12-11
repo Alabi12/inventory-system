@@ -2,9 +2,46 @@
 
 <%= render @sales_order %>
 
-<div>
-  <%= link_to "Edit this sales order", edit_sales_order_path(@sales_order) %> |
-  <%= link_to "Back to sales orders", sales_orders_path %>
-
-  <%= button_to "Destroy this sales order", @sales_order, method: :delete %>
+<!-- Success Modal -->
+<div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-labelledby="orderSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderSuccessModalLabel">Success!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Your Sales Order has been successfully created.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<div class="actions mt-3">
+  <%= link_to "Edit", edit_sales_order_path(@sales_order), class: "btn btn-warning" %>
+  <%= link_to "Back", sales_orders_path, class: "btn btn-secondary" %>
+  
+  <%= button_to "Delete", @sales_order, method: :delete, data: { confirm: "Are you sure you want to delete this sales order?" }, class: "btn btn-danger" %>
+</div>
+
+<style>
+  .actions .btn {
+    margin-right: 10px;
+  }
+  p {
+    margin-bottom: 1rem;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const noticeMessage = "<%= notice %>"; // Get the Rails flash notice
+    if (noticeMessage && noticeMessage.includes("successfully created")) {
+      const successModal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
+      successModal.show();
+    }
+  });
+</script>

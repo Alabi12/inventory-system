@@ -48,3 +48,4 @@ function showToast(message) {
     toast.remove();
   }, 3000);
 }
+import "./controllers"

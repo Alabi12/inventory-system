@@ -1,10 +1,18 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @sales_order_item %>
-
-<div>
-  <%= link_to "Edit this sales order item", edit_sales_order_item_path(@sales_order_item) %> |
-  <%= link_to "Back to sales order items", sales_order_items_path %>
-
-  <%= button_to "Destroy this sales order item", @sales_order_item, method: :delete %>
+<div class="card mb-4">
+  <div class="card-body">
+    <h2 class="card-title">Sales Order Item Details</h2>
+    
+    <p><strong>Sales Order ID:</strong> <%= @sales_order_item.sales_order_id %></p>
+    <p><strong>Product ID:</strong> <%= @sales_order_item.product_id %></p>
+    <p><strong>Quantity:</strong> <%= @sales_order_item.quantity %></p>
+    <p><strong>Total Price:</strong> <%= @sales_order_item.total_price %></p>
+    
+    <div class="d-flex justify-content-between mt-3">
+      <%= link_to "Edit this sales order item", edit_sales_order_item_path(@sales_order_item), class: "btn btn-warning btn-sm" %>
+      <%= link_to "Back to sales order items", sales_order_items_path, class: "btn btn-secondary btn-sm" %>
+      <%= button_to "Destroy this sales order item", @sales_order_item, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+    </div>
+  </div>
 </div>

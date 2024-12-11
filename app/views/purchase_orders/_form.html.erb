@@ -1,7 +1,7 @@
 <%= form_with(model: @purchase_order, local: true) do |form| %>
   <% if @purchase_order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@purchase_order.errors.count, "error") %> prohibited this order from being saved:</h2>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(@purchase_order.errors.count, "error") %> prohibited this order from being saved:</h4>
       <ul>
         <% @purchase_order.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,43 +10,53 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= form.label :supplier_id %>
-    <%= form.collection_select :supplier_id, Supplier.all, :id, :name, prompt: "Select a supplier" %>
+  <div class="form-group mb-3">
+    <%= form.label :supplier_id, class: "form-label" %>
+    <%= form.collection_select :supplier_id, Supplier.all, :id, :name, prompt: "Select a supplier", class: "form-select" %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :order_date %>
+  <div class="form-group mb-3">
+    <%= form.label :order_date, class: "form-label" %>
     <%= form.date_field :order_date, class: "form-control" %>
   </div>
-  <div class="form-group">
-    <%= form.label :received_date %>
-    <%= form.date_field :received_date, class: "form-control" %>
+
+  <div class="form-group mb-3">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status, [["Pending", "pending"], ["Received", "received"], ["Cancelled", "cancelled"]], prompt: "Select status", class: "form-select" %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :status %>
-    <%= form.select :status, [["Pending", "pending"], ["Received", "received",  ], ["Cancelled", "cancelled"]], prompt: "Select status" %>
-  </div>
-
-  <h3>Order Items</h3>
+  <h3 class="mt-4">Order Items</h3>
   <%= form.fields_for :purchase_order_items do |item_form| %>
-    <div class="nested-fields">
+    <div class="nested-fields mb-3">
       <div class="form-group">
-        <%= item_form.label :product_id %>
-        <%= item_form.collection_select :product_id, Product.all, :id, :name, prompt: "Select a product" %>
+        <%= item_form.label :product_id, class: "form-label" %>
+        <%= item_form.collection_select :product_id, Product.all, :id, :name, prompt: "Select a product", class: "form-select" %>
+        <% if item_form.object.errors[:product_id].any? %>
+          <div class="invalid-feedback d-block"><%= item_form.object.errors[:product_id].first %></div>
+        <% end %>
       </div>
+
       <div class="form-group">
-        <%= item_form.label :quantity %>
+        <%= item_form.label :quantity, class: "form-label" %>
         <%= item_form.number_field :quantity, class: "form-control", min: 1 %>
+        <% if item_form.object.errors[:quantity].any? %>
+          <div class="invalid-feedback d-block"><%= item_form.object.errors[:quantity].first %></div>
+        <% end %>
       </div>
+
       <div class="form-group">
-        <%= item_form.label :price %>
+        <%= item_form.label :price, class: "form-label" %>
         <%= item_form.number_field :price, class: "form-control", min: 0, step: 0.01 %>
+        <% if item_form.object.errors[:price].any? %>
+          <div class="invalid-feedback d-block"><%= item_form.object.errors[:price].first %></div>
+        <% end %>
       </div>
+
       <%= item_form.hidden_field :_destroy %>
     </div>
   <% end %>
 
-  <%= form.submit "Save Purchase Order", class: "btn btn-primary" %>
+  <div class="d-flex justify-content-end">
+    <%= form.submit "Save", class: "btn btn-primary" %>
+  </div>
 <% end %>

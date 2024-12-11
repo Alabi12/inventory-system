@@ -1,28 +1,87 @@
-<h1>Purchase Orders</h1>
+<h1 class="text-center mb-4">Purchase Orders</h1>
+<!-- app/views/suppliers/index.html.erb -->
+<h1>Suppliers</h1>
 
-<%= link_to "New Purchase Order", new_purchase_order_path, class: "btn btn-primary" %>
+<div class="mb-4">
+  <%= form_with url: suppliers_path, method: :get, local: true, class: "d-flex" do |f| %>
+    <%= f.text_field :query, class: "form-control me-2", placeholder: "Search suppliers or products", value: params[:query] %>
+    <%= f.submit "Search", class: "btn btn-primary" %>
+  <% end %>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Supplier</th>
-      <th>Order Date</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @purchase_orders.each do |order| %>
-      <tr>
-        <td><%= order.supplier.name %></td>
-        <td><%= order.order_date %></td>
-        <td><%= order.status %></td>
-        <td>
-          <%= link_to "Show", purchase_order_path(order), class: "btn btn-info" %>
-          <%= link_to "Edit", edit_purchase_order_path(order), class: "btn btn-warning" %>
-          <%= link_to "Delete", purchase_order_path(order), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+
+<%= link_to "New Purchase Order", new_purchase_order_path, class: "btn btn-primary mb-3" %>
+
+<div class="row">
+  <% @purchase_orders.each do |order| %>
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title"><strong>Supplier:</strong> <%= order.supplier.name %></h5>
+          <p class="card-text">
+            <strong>Order Date:</strong> <%= order.order_date.strftime('%B %d, %Y') %><br>
+            <strong>Status:</strong> 
+            <span class="badge <%= order.status.downcase %>"><%= order.status.capitalize %></span>
+          </p>
+          <div class="d-flex justify-content-between mt-3">
+            <%= link_to "Show", purchase_order_path(order), class: "btn btn-info btn-sm" %>
+            <%= link_to "Edit", edit_purchase_order_path(order), class: "btn btn-warning btn-sm" %>
+            <%= link_to "Delete", purchase_order_path(order), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .badge {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+  }
+
+  .badge.pending {
+    background-color: #ffc107; /* Yellow for pending */
+    color: #212529;
+  }
+
+  .badge.completed {
+    background-color: #28a745; /* Green for completed */
+    color: white;
+  }
+
+  .badge.cancelled {
+    background-color: #dc3545; /* Red for cancelled */
+    color: white;
+  }
+
+  .card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+  }
+
+  .card-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .btn-sm {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.875rem;
+  }
+
+  .mb-3 {
+    margin-bottom: 1rem !important;
+  }
+
+  .h-100 {
+    height: 100%;
+  }
+</style>

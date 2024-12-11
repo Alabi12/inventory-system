@@ -1,10 +1,97 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @customer %>
-
-<div>
-  <%= link_to "Edit this customer", edit_customer_path(@customer) %> |
-  <%= link_to "Back to customers", customers_path %>
-
-  <%= button_to "Destroy this customer", @customer, method: :delete %>
+<div class="customer-container">
+  <% @customers.each do |customer| %>
+    <%= render partial: "customer", locals: { customer: customer } %>
+  <% end %>
 </div>
+
+<style>
+  /* Container for the customer cards */
+  .customer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Creates a responsive grid */
+    gap: 20px;  /* Adds space between each card */
+    padding: 20px;
+  }
+
+  /* Individual customer card styles */
+  .customer-card {
+    background-color: #fff;
+    border: 1px solid #ddd;  /* Light border for the card */
+    border-radius: 8px;  /* Rounded corners for the card */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Soft shadow around the card */
+    padding: 20px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;  /* Smooth transition effects */
+  }
+
+  .customer-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);  /* Darker shadow on hover */
+    transform: translateY(-5px);  /* Slight lift effect */
+  }
+
+  /* Style for each customer field */
+  .customer-card p {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+  }
+
+  .customer-card strong {
+    font-weight: bold;
+    color: #555;  /* Slightly darker color for emphasis */
+  }
+
+  /* Action buttons styling */
+  .actions {
+    display: flex;
+    gap: 15px;  /* Adds spacing between buttons */
+    justify-content: flex-start;  /* Align buttons to the left */
+    margin-top: 15px;
+  }
+
+  .custom-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  /* Edit button (Warning) */
+  .custom-btn.btn-warning {
+    background-color: #f0ad4e;
+    color: white;
+  }
+
+  .custom-btn.btn-warning:hover {
+    background-color: #ec971f;
+  }
+
+  /* Delete button (Danger) */
+  .custom-btn-danger {
+    background-color: #d9534f;
+    color: white;
+  }
+
+  .custom-btn-danger:hover {
+    background-color: #c9302c;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .customer-container {
+      grid-template-columns: 1fr; /* Stack cards in one column on smaller screens */
+    }
+
+    .customer-card {
+      padding: 15px;
+    }
+
+    .actions {
+      flex-direction: column; /* Stack action buttons vertically on small screens */
+      gap: 10px;
+    }
+  }
+</style>

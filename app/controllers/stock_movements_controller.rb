@@ -15,12 +15,12 @@ class StockMovementsController < ApplicationController
   end
 
   def create
-    @stock_movement = StockMovement.new(stock_movement_params)
+    @product = Product.find(params[:product_id])
+    @stock_movement = @product.stock_movements.new(stock_movement_params)
 
     if @stock_movement.save
-      redirect_to stock_movements_path, notice: 'Stock movement recorded successfully.'
+      redirect_to product_path(@product), notice: "Stock movement recorded successfully."
     else
-      flash.now[:alert] = 'Failed to record stock movement.'
       render :new
     end
   end
@@ -56,4 +56,9 @@ class StockMovementsController < ApplicationController
   def set_products
     @products = Product.all
   end
+
+  def stock_movement_params
+    params.require(:stock_movement).permit(:quantity, :movement_type)
+  end
+
 end

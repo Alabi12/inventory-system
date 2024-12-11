@@ -1,0 +1,30 @@
+<h2 class="text-center mb-4">Log in</h2>
+
+<div class="card mx-auto shadow-sm p-4" style="max-width: 400px;">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "needs-validation" }) do |f| %>
+    <div class="mb-3">
+      <%= f.label :email, class: "form-label" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Enter your email" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :password, class: "form-label" %>
+      <%= f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "Enter your password" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="mb-3 form-check">
+        <%= f.check_box :remember_me, class: "form-check-input", id: "remember_me" %>
+        <%= f.label :remember_me, class: "form-check-label", for: "remember_me" %>
+      </div>
+    <% end %>
+
+    <div class="d-grid gap-2">
+      <%= f.submit "Log in", class: "btn btn-primary btn-lg" %>
+    </div>
+  <% end %>
+
+  <div class="mt-3 text-center">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

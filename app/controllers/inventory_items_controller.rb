@@ -2,8 +2,9 @@ class InventoryItemsController < ApplicationController
   before_action :set_inventory_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @inventory_items = InventoryItem.all
+    @inventory_items = InventoryItem.includes(:product)
   end
+  
 
   def show
     @inventory_item = InventoryItem.find(params[:id])
@@ -11,7 +12,8 @@ class InventoryItemsController < ApplicationController
 
   def new
     @inventory_item = InventoryItem.new
-  end
+    @products = Product.all # Ensure this line is present to fetch products
+  end  
 
   def create
     @inventory_item = InventoryItem.new(inventory_item_params)

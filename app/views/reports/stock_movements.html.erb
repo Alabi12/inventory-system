@@ -1,16 +1,32 @@
 <h1>Stock Movement Report</h1>
 
-<%= form_with(url: reports_stock_movements_path, method: :get, local: true, class: "form-inline") do |f| %>
-  <div class="form-group">
-    <%= f.label :search, "Search by Product Name", class: "mr-2" %>
-    <%= f.text_field :search, value: @search_query, class: "form-control", placeholder: "Enter product name" %>
-  </div>
-  <%= f.submit "Search", class: "btn btn-primary ml-2" %>
-<% end %>
+<div class="mb-4">
+  <%= form_with(url: reports_stock_movements_path, method: :get, local: true, class: "d-flex align-items-center") do |f| %>
+    <div class="form-group me-2">
+      <%= f.label :search, "Search by Product Name", class: "form-label" %>
+      <%= f.text_field :search, value: @search_query, class: "form-control", placeholder: "Enter product name" %>
+    </div>
+    <%= f.submit "Search", class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+<div class="mb-4">
+  <%= form_with url: reports_stock_movements_path, method: :get, local: true, class: "d-flex align-items-center" do |f| %>
+    <div class="form-group me-2">
+      <%= f.label :start_date, "Start Date", class: "form-label" %>
+      <%= f.date_field :start_date, value: params[:start_date], class: "form-control" %>
+    </div>
+    <div class="form-group me-2">
+      <%= f.label :end_date, "End Date", class: "form-label" %>
+      <%= f.date_field :end_date, value: params[:end_date], class: "form-control" %>
+    </div>
+    <%= f.submit "Filter", class: "btn btn-primary" %>
+  <% end %>
+</div>
 
 <% if @products.present? %>
-  <table class="table">
-    <thead>
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
       <tr>
         <th>Product Name</th>
         <th>Quantity Received</th>
@@ -30,15 +46,19 @@
     </tbody>
   </table>
 <% else %>
-  <p>No data available for stock movements.</p>
+  <div class="alert alert-info">
+    No data available for stock movements.
+  </div>
 <% end %>
 
-<%= form_with url: stock_movement_reports_path, method: :get, local: true do |f| %>
-  <div class="form-group">
-    <%= f.label :start_date, "Start Date" %>
-    <%= f.date_field :start_date %>
-    <%= f.label :end_date, "End Date" %>
-    <%= f.date_field :end_date %>
-  </div>
-  <%= f.submit "Filter", class: "btn btn-primary" %>
-<% end %>
+<style>
+  .form-label {
+    font-weight: bold;
+  }
+  .form-group {
+    margin-right: 15px;
+  }
+  table {
+    margin-top: 20px;
+  }
+</style>
