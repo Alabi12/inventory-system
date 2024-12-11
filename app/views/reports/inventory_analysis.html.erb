@@ -1,0 +1,24 @@
+<h1>Inventory Analysis</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Opening Stock</th>
+      <th>Incoming Stock</th>
+      <th>Outgoing Stock</th>
+      <th>Closing Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @inventory_analysis.each do |analysis| %>
+      <tr>
+        <td><%= analysis[:product_name] %></td>
+        <td><%= analysis[:opening_stock] %></td>
+        <td><%= analysis[:incoming_stock] %></td>
+        <td><%= analysis[:outgoing_stock] %></td>
+        <td><%= analysis[:closing_stock] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
