@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_10_154058) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_11_020223) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_10_154058) do
     t.integer "threshold"
     t.string "category"
     t.integer "reorder_point", default: 0
+    t.integer "opening_stock"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 

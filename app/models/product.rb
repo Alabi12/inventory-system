@@ -23,6 +23,10 @@ class Product < ApplicationRecord
     stock_movements.received.sum(:quantity) - stock_movements.sold.sum(:quantity)
   end
 
+  def current_stock
+    opening_stock + stock_movements.sum(:quantity)
+  end
+
   def search_data
     {
       name: name,
