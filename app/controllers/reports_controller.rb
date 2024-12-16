@@ -49,12 +49,16 @@ class ReportsController < ApplicationController
 
   # Inventory analysis using FIFO
   def inventory_analysis
-    @inventory_analysis = Product.all.map do |product|
-      opening_stock = product.stock_movements.where('created_at < ?', Time.current.beginning_of_month).sum(:quantity)
-      incoming_stock = product.stock_movements.where(movement_type: 'received').sum(:quantity)
-      outgoing_stock = product.stock_movements.where(movement_type: 'sold').sum(:quantity)
+    @inventory_analysis = Product.includes(:stock_movements).map do |product|
+      # Opening stock from 'opening' movements
+      opening_stock = product.stock_movements.where(movement_type: 'opening').sum(:quantity)
+      incoming_stock = calculate_incoming_stock(product, @start_date, @end_date)
+      outgoing_stock = calculate_outgoing_stock(product, @start_date, @end_date)
       closing_stock = opening_stock + incoming_stock - outgoing_stock
-
+  
+      # Record the opening inventory in the database (if needed)
+      product.update(opening_stock: opening_stock) if product.respond_to?(:opening_stock)
+  
       {
         product_name: product.name,
         opening_stock: opening_stock,
@@ -63,7 +67,7 @@ class ReportsController < ApplicationController
         closing_stock: closing_stock
       }
     end
-  end 
+  end  
 
   private
 

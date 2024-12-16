@@ -1,11 +1,12 @@
 class StockMovement < ApplicationRecord
   before_validation :set_default_warehouse
   belongs_to :product
+  belongs_to :warehouse
 
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }
-  validates :movement_type, inclusion: { in: %w(received sold), message: "%{value} is not a valid movement type" }
-  # validates :change_quantity, presence: true
+  validates :movement_type, inclusion: { in: %w[received sold opening], message: "%{value} is not a valid movement type" }
 
+  enum movement_type: { received: 'received', sold: 'sold', opening: 'opening' }
   enum change_type: { increase: 0, decrease: 1 }  # or similar
 
     # Define the received scope
