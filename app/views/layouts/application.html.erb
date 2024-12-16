@@ -56,7 +56,7 @@
     color: #fff;
     min-width: 200px;
     height: 100vh;
-    padding-top: 80px; /* Add top padding to avoid overlapping navbar */
+    padding-top: 60px; /* Add top padding to avoid overlapping navbar */
     position: fixed;
     top: 0;
     left: 0;
@@ -65,7 +65,7 @@
 
   .sidebar .nav-link {
     color: #fff;
-    padding: 10px 15px;
+    padding: 5px 5px;
     margin: 10px;
     border-radius: 5px;
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -162,6 +162,9 @@
         <li><%= link_to 'Customers', customers_path, class: 'nav-link' %></li>
         <li><%= link_to 'Stock Movements', stock_movements_path, class: 'nav-link' %></li>
         <li><%= link_to 'New Stock Movement', new_stock_movement_path, class: 'nav-link' %></li>
+        <li class="menu-item">
+        <%= link_to 'Warehouses', warehouses_path, class: 'nav-link'%>
+        </li>   
         <li><%= link_to 'Opening Inventory', new_inventory_item_path, class: 'nav-link' %></li>
       </ul>
     </div>

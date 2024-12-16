@@ -12,7 +12,10 @@ class StockMovementsController < ApplicationController
 
   def new
     @stock_movement = StockMovement.new
+    @products = Product.all
+    @warehouses = Warehouse.all
   end
+  
 
   def create
     @product = Product.find(params[:product_id])
@@ -26,7 +29,9 @@ class StockMovementsController < ApplicationController
   end
 
   def edit
-    # @stock_movement is already set by the before_action
+    @stock_movement = StockMovement.find(params[:id])
+    @products = Product.all
+    @warehouses = Warehouse.all
   end
 
   def update
@@ -46,7 +51,7 @@ class StockMovementsController < ApplicationController
   private
 
   def stock_movement_params
-    params.require(:stock_movement).permit(:product_id, :quantity, :movement_type, :change_type)
+    params.require(:stock_movement).permit(:product_id, :quantity, :movement_type, :change_type, :warehouse_id)
   end
 
   def set_stock_movement
