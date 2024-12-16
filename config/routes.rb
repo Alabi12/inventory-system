@@ -42,4 +42,6 @@ Rails.application.routes.draw do
   resources :customers
   resources :sales_orders
   resources :sales_order_items
+
+  resources :warehouses
 end

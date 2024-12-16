@@ -1,4 +1,5 @@
 class StockMovement < ApplicationRecord
+  before_validation :set_default_warehouse
   belongs_to :product
 
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }
@@ -11,6 +12,12 @@ class StockMovement < ApplicationRecord
     scope :received, -> { where(movement_type: 'received') }
 
     # Define the sold scope
-    scope :sold, -> { where(movement_type: 'sold') }
+    scope :sold, -> { where(movement_type: 'sold')}
 
+
+    private
+
+    def set_default_warehouse
+      self.warehouse_id ||= Warehouse.first&.id
+    end
 end
