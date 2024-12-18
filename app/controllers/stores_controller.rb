@@ -1,4 +1,5 @@
 class StoresController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_store, only: %i[ show edit update destroy ]
 
   # GET /stores or /stores.json
@@ -56,6 +57,16 @@ class StoresController < ApplicationController
       format.html { redirect_to stores_path, status: :see_other, notice: "Store was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def analysis
+    # Add logic for fetching store analytics
+    @store_analytics = {
+      total_products: Product.count,
+      low_stock_count: Product.where('quantity < ?', 10).count,
+      total_sales: SalesOrder.sum(:total_price),
+      top_selling_products: Product.joins(:sales_order_items).group(:id).order('SUM(sales_order_items.quantity) DESC').limit(5)
+    }
   end
 
   private

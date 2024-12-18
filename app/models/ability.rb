@@ -1,4 +1,3 @@
-# app/models/ability.rb
 class Ability
   include CanCan::Ability
 
@@ -13,6 +12,8 @@ class Ability
     elsif user.store_operator?
       can :read, StockMovement
       can :create, StockMovement
+      can :read, :store_analysis
+      can :create, :store_analysis
     else
       can :read, Product
     end

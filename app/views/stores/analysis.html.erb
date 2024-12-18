@@ -1,0 +1,22 @@
+<h1>Store Analysis</h1>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h2>Inventory Summary</h2>
+    <p>Total Products: <%= @store_analytics[:total_products] %></p>
+    <p>Low Stock Products: <%= @store_analytics[:low_stock_count] %></p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h2>Sales Performance</h2>
+    <p>Total Sales: <%= number_to_currency(@store_analytics[:total_sales]) %></p>
+    <p>Top-Selling Products:</p>
+    <ul>
+      <% @store_analytics[:top_selling_products].each do |product| %>
+        <li><%= product.name %> - <%= product.sales_order_items.sum(:quantity) %> sold</li>
+      <% end %>
+    </ul>
+  </div>
+</div>

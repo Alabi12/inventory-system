@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'reports/stock_movements'
   get 'reports/sales'
   get 'reports/inventory_analysis', to: 'reports#inventory_analysis', as: 'analysis_inventory'
+   get 'store_analysis', to: 'stores#analysis', as: 'store_analysis'
 
   resources :stock_movements
 

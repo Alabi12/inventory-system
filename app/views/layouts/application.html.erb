@@ -37,7 +37,7 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1050;
+    z-index: 1000;
     transition: background-color 0.3s ease;
   }
 
@@ -53,6 +53,7 @@
   /* Sidebar Styling */
   .sidebar {
     background-color: #343a40;
+    font-size: 15px;
     color: #fff;
     min-width: 200px;
     height: 100vh;
@@ -174,7 +175,9 @@
         <% if can? :read, Store %>
           <li><%= link_to 'Store Inventory', stores_path, class: 'nav-link' %></li>
         <% end %>
-        
+        <% if can? :read, :store_analysis %>
+        <li><%= link_to 'Store Analysis', store_analysis_path, class: 'nav-link' %></li>
+        <% end %>       
       </ul>
     </div>
 
