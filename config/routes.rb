@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :stores
   #  root 'home#index'
   devise_for :users
   get 'reports/inventory'

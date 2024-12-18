@@ -154,7 +154,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <ul class="list-unstyled">
-        <li><%= link_to 'Dashboard', dashboard_path, class: 'nav-link' %></li>
+        <li><%= link_to 'Home', dashboard_path, class: 'nav-link' %></li>
         <li><%= link_to 'Products', products_path, class: 'nav-link' %></li>
         <li><%= link_to 'Purchase Orders', purchase_orders_path, class: 'nav-link' %></li>
         <li><%= link_to 'Sales Orders', sales_orders_path, class: 'nav-link' %></li>
@@ -162,11 +162,19 @@
         <li><%= link_to 'Customers', customers_path, class: 'nav-link' %></li>
         <li><%= link_to 'Stock Movements', stock_movements_path, class: 'nav-link' %></li>
         <li><%= link_to 'New Stock Movement', new_stock_movement_path, class: 'nav-link' %></li>
-        <li class="menu-item">
-        <%= link_to 'Warehouses', warehouses_path, class: 'nav-link'%>
-        </li>
-        <li><%= link_to 'Create Warehouse', new_warehouse_path, class: 'menu-link' %></li>   
-        <li><%= link_to 'Opening Inventory', new_inventory_item_path, class: 'nav-link' %></li>
+        <% if can? :manage, Warehouse %>
+          <li><%= link_to 'Manage Warehouses', warehouses_path, class: 'nav-link' %></li>
+          <li><%= link_to 'Create Warehouse', new_warehouse_path, class: 'nav-link' %></li>
+        <% end %>
+
+        <% if can? :create, StockMovement %>
+          <li><%= link_to 'Record Stock Movement', new_stock_movement_path, class: 'nav-link' %></li>
+        <% end %>
+
+        <% if can? :read, Store %>
+          <li><%= link_to 'Store Inventory', stores_path, class: 'nav-link' %></li>
+        <% end %>
+        
       </ul>
     </div>
 

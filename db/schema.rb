@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_16_121308) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_16_174244) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -115,6 +115,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_16_121308) do
     t.index ["product_id"], name: "index_stock_movements_on_product_id"
   end
 
+  create_table "stores", force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "suppliers", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -132,6 +139,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_16_121308) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
