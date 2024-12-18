@@ -14,6 +14,7 @@ class StockMovementsController < ApplicationController
     @stock_movement = StockMovement.new
     @products = Product.all
     @warehouses = Warehouse.all
+    @stores = Store.all
   end
   
 

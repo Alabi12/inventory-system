@@ -12,6 +12,11 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :store_id, 'Store' %>
+    <%= f.collection_select :store_id, @stores, :id, :name, prompt: 'Select a store', class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
   <%= f.label :warehouse_id, 'Warehouse' %>
   <%= f.collection_select :warehouse_id, @warehouses, :id, :name, prompt: 'Select a warehouse', class: 'form-control' %>
 </div>
